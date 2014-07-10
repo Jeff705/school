@@ -1,6 +1,8 @@
 import os
 import sys
-#Obervable was shamelessly taken from the Toy MVC in the project spec
+
+GEOMETRY = '640x480+400+400'
+#Observable was shamelessly taken from the Toy MVC in the project spec
 class Observable:
   def __init__(self, initValue=None):
     self.data = initValue
@@ -59,13 +61,28 @@ class Model(object):
 
 class View(tk.Toplevel):
   def __init__(self, root):
-    tk.Toplevel.__init__(self, root)
-    self.protol('WM_DELETE_WINDOW', self.master.destroy)
-    tk.Label(Graphical file locator 
+    tk.Toplevel.__init__(self, master)
+    self.protocol('WM_DELETE_WINDOW', self.master.destroy)
+    self.geometry(GEOMETRY)
+    self.bind("<Escape>", lambda event: self.quit())
+    label = tk.Label(self, text = "Graphical file locator")
+    label.pack()
+    self.fileList = tk.Listbox(self)
+    self.fileList.pack()
+    bottomFrame = tk.Frame(self, height = 50)
+    bottomFrame.pack(side = tk.BOTTOM)
+    self.entryBox = tk.Entry(bottomFrame, width = 320)
+    self.entryBox.pack(side = tk.LEFT)
+    self.clearButton = tk.Button(bottomFrame, text = "Clear")
+    self.clearButton.config(width = 100, height = 40)
+    self.clearButton.pack(side = tk.LEFT, padx = 10)
+    self.searchButton = tk.Button(bottomFrame, text = "Search")
+    self.searchButton.config(width = 100, height = 40)
+    self.searchButton.pack(side = tk.LEFT, padx = 10)
 
 
 class Controller(object):
-  def __init__(self):
+  def __init__(self, root):
     pass
   
   def hitsChanged(self, hits):
