@@ -1,0 +1,18 @@
+Name: Chris Ragan
+Clemson Email Address: cragan@clemson.edu
+CpSc 3720: Software Development
+
+Project no: 2
+Project due date: 7/4/14
+Project description: Intro to Scripting
+
+The Specs that I implemented are: Traverse class encapsulation, odd
+	file name handling, appears to ignore .svn and .git directories
+	(the last was not rigorously tested).
+
+The Specs that I was unable to implement are: N/A
+
+Extras: As you said, I was overthinking this assignment. Thanks for the clarity.
+
+
+

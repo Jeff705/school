@@ -53,23 +53,29 @@ class View(tk.Toplevel):
     tk.Toplevel.__init__(self, master)
     self.protocol('WM_DELETE_WINDOW', self.master.destroy)
     self.geometry(GEOMETRY)
-    self.bind("<Escape>", lambda event: self.quit())
     label = tk.Label(self, text = "Graphical file locator")
     label.pack()
-    self.fileList = tk.Listbox(self, width = 60, height = 20)
+    topFrame = tk.Frame(self)
+    self.fileList = tk.Listbox(topFrame, width = 70, height = 25)
     self.fileList.pack()
     bottomFrame = tk.Frame(self, height = 8)
     bottomFrame.pack(side = tk.BOTTOM)
+    topFrame.pack()
+    scrollbar = tk.Scrollbar(topFrame, orient = tk.HORIZONTAL)
+    scrollbar.pack(side = tk.BOTTOM, fill = tk.X)
+    self.fileList.config(xscrollcommand = scrollbar.set)
+    scrollbar.config(command = self.fileList.xview)
     self.entryBox = tk.Entry(bottomFrame, width = 32)
-    self.entryBox.insert(0,"<Enter search term here>")
-    self.entryBox.bind("<Button-1>", self.clearEntry)
     self.entryBox.pack(side = tk.LEFT)
-    self.clearButton = tk.Button(bottomFrame, text = "Clear")
-    self.clearButton.config(width = 10, height = 4)
-    self.clearButton.pack(side = tk.LEFT, padx = 10)
     self.searchButton = tk.Button(bottomFrame, text = "Search")
-    self.searchButton.config(width = 10, height = 4)
-    self.searchButton.pack(side = tk.LEFT)
+    self.searchButton.config(width = 6, height = 2, bg = '#00FF00', bd = 3)
+    self.searchButton.pack(side = tk.LEFT, padx = 5)
+    self.clearButton = tk.Button(bottomFrame, text = "Clear list")
+    self.clearButton.config(width = 6, height = 2, bg = '#FFFF00', bd = 3)
+    self.clearButton.pack(side = tk.LEFT, padx = 5)
+    self.quitButton = tk.Button(bottomFrame, text = "Quit")
+    self.quitButton.config(width = 6, height = 2, bg = '#FF0000', bd = 3)
+    self.quitButton.pack(side = tk.LEFT, padx = 5)
 
   def updateHits(self, newHits):
     self.fileList.delete(0,tk.END)
@@ -79,6 +85,12 @@ class View(tk.Toplevel):
   def clearEntry(self, event):
     self.entryBox.delete(0,tk.END)
 
+  def setEntry(self, text):
+    self.entryBox.insert(0,text)
+
+  def bindEntry(self, cmd, handler):
+    self.entryBox.bind(cmd, handler)
+
   def getEntry(self):
     return self.entryBox.get()
 
@@ -87,8 +99,13 @@ class Controller(object):
     self.model = Model()
     self.model.hits.addCallback(self.hitsChanged)
     self.view = View(root)
+    self.view.bind("<Escape>", lambda event: root.quit())
+    self.view.setEntry("<Enter search term here>")
+    self.view.bindEntry("<Button-1>", self.view.clearEntry)
+    self.view.bindEntry("<Return>", self.searchModel)
     self.view.clearButton.config(command = self.clear)
     self.view.searchButton.config(command = self.searchModel)
+    self.view.quitButton.config(command = root.quit)
   
   def hitsChanged(self, hits):
     self.view.updateHits(hits)
@@ -99,7 +116,7 @@ class Controller(object):
   def clear(self):
     self.model.clear()
     
-  def searchModel(self):
+  def searchModel(self, event = None):
     self.model.clear()
     part = self.view.getEntry()
     subdirs = [self.model.getDir()]
@@ -107,7 +124,6 @@ class Controller(object):
     while subdirs:
       dirToSearch = subdirs.pop()
       thisDirectory = os.listdir(dirToSearch)
-
       for i in thisDirectory:
         toPush = os.path.join(dirToSearch, i)
 
