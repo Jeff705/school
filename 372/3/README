@@ -2,17 +2,19 @@ Name: Chris Ragan
 Clemson Email Address: cragan@clemson.edu
 CpSc 3720: Software Development
 
-Project no: 2
-Project due date: 7/4/14
-Project description: Intro to Scripting
+Project no: 3
+Project due date: 7/10/14
+Project description: Building a GUI
 
-The Specs that I implemented are: Traverse class encapsulation, odd
-	file name handling, appears to ignore .svn and .git directories
-	(the last was not rigorously tested).
+The Specs that I implemented are: Put a GUI on the existing Traverse code
+	and convert to a MVC framework.
 
-The Specs that I was unable to implement are: N/A
+The Specs that I was unable to implement are: Keeping all the data in the model!	I was unsure of how to get my entry text in the model, so it lives in
+	the view, much to my chagrin.
 
-Extras: As you said, I was overthinking this assignment. Thanks for the clarity.
+Extras: No extras this time, unless you count the scroll bar. I thought it was
+	pretty neat that I put the text in the search box that disappears the
+	moment you click to enter your own.
 
 
 
