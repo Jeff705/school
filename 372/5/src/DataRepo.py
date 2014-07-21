@@ -46,7 +46,6 @@ class DataRepo(BaseException):
         if not each.get('name') in ingredients:
           ingredients.append(each.get('name'))
     ingredients.sort()
-    print "loaded ingredients:", ingredients
     return ingredients
 
   def loadDB(self):

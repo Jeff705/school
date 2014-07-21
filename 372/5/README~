@@ -1,0 +1,26 @@
+Name: Chris Ragan
+Email: cragan@clemson.edu
+Date: 7/21/2014
+
+Proj No: 4, First Project Deliverable
+
+Description:
+This submission includes the functional core for my final project.
+This function core consists of a model (rrModel.py) and a Singleton class for
+storage (DataRepo.py). This isn't as far as I'd intended to get, but I wrestled
+with how to store data for longer than I should have.
+
+The Second project deliverable will include: A full MVC plus the DataRepo with
+  full functionality implemented (all getters, setters, etc). I hope to have at
+  least enough recipes built to showcase a proof-of-concept, as well as a rough
+  method of entry for new recipes.
+
+The Final project deliverable will include: the full implementation of Recipe
+  Roundup, with at least 10 recipes, bug-free lookup capability, and a smooth
+  method of recipe entry.
+
+
+Extras that I would like to do if I the have time and intestinal
+fortitude: automated recipe parsing. It's a long shot at best, and a pipe dream
+at worst.
+

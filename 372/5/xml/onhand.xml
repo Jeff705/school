@@ -1,12 +1,5 @@
 <OnHand>
-  <Ingredient>
-	<Name>milk</Name>
-  </Ingredient>
-  <Ingredient>
-	<Name>olive oil</Name>
-  </Ingredient>
-  <Ingredient>
-	<Name>flour</Name>
-	<Modifier>all-purpose</Modifier>
-  </Ingredient>
+  <Ingredient name = "milk" />
+  <Ingredient name = "olive oil" />
+  <Ingredient name = "flour" />
 </OnHand>
