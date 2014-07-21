@@ -1,7 +1,14 @@
-#TODO: write load and write functions for DataRepo
+#TODO: implement write functions for DataRepo
 
-import sys, os
+import os
 import xml.etree.cElementTree as ET
+
+ONHAND = 'onhand.xml'
+DB = 'recipeDB.xml'
+
+''' DataRepo: a Singleton containing a working directory, file, and elementTrees
+    for the recipe database and on-hand ingredients... and, of course, the
+    associated data handling functions. '''
 
 class DataRepo(BaseException):
   __repo = None
@@ -9,22 +16,47 @@ class DataRepo(BaseException):
     if DataRepo.__repo:
       raise DataRepo.__repo
     DataRepo.__repo = self
-    self.directory = os.getcwd()
+    startdir = os.getcwd()
     os.chdir('..')
+    self.directory = os.getcwd()
     self.workingFile = None
     self.onhand = self.loadOnhand()
-    self.alling = self.loadAlling()
     self.recipedb = self.loadDB()
-    os.chdir(self.directory)
+    self.alling = self.loadAlling()
+    os.chdir(startdir)
 
   def loadOnhand(self):
-    onhand = os.path.walk(self.directory, findFile(), 'onhand.xml')
+    os.path.walk(self.directory, findFile, ONHAND)
+    if ONHAND in self.workingFile:
+      data = ET.parse(self.workingFile).getroot()
+    else:
+      data = ET.Element('OnHand')
+      print "Failed to find a working file, starting with a blank tree"
+    return data
+
+#builds a list of ingredients from all recipes in the recipe DB.
+#returns a sorted list of ingredients
 
   def loadAlling(self):
-    pass
+    ingredients = []
+    db = self.getDB()
+    for recipe in db.iter('Recipe'):
+      ing = recipe.findall('Ingredient')
+      for each in ing:
+        if not each.get('name') in ingredients:
+          ingredients.append(each.get('name'))
+    ingredients.sort()
+    print "loaded ingredients:", ingredients
+    return ingredients
 
   def loadDB(self):
-    pass
+    os.path.walk(self.directory, findFile, DB)
+    if DB in self.workingFile:
+      data = ET.parse(self.workingFile).getroot()
+    else:
+      data = ET.Element("RecipeDB")
+      print "DB load from file failed, creating blank recipe database"
+    return data  
 
   def getOnhand(self):
     return self.onhand
@@ -35,14 +67,17 @@ class DataRepo(BaseException):
   def getDB(self):
     return self.recipedb
 
-  def writeOnhand(self, onHand):
+  def writeOnhand(self):
     pass
 
-  def writeDB(self, DB):
+  def writeDB(self):
     pass
 
-def findFile(fname, dirname, namelist)
-  for n in namelist
+def findFile(fname, dirname, namelist):
+  for n in namelist:
+    if fname == n:
+      getRepo().workingFile = os.path.join(dirname, n)
+      
 def getRepo():
   try:
     repo = DataRepo()
@@ -52,6 +87,4 @@ def getRepo():
 
 
 if __name__ == "__main__":
-  a = getRepo()
-  b = getRepo()
-  print  "ids of a and b are:", ( id(a), id(b) ) 
+  repo = getRepo() 

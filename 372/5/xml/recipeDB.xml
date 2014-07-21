@@ -1,0 +1,15 @@
+<RecipeDB>
+  <Recipe title = "Dummy recipe 1">
+    <Ingredient name = "milk" quantity = "0.5" unit = "cup" mod = ""/>
+    <Ingredient name = "sugar" quantity = "0.5" unit = "tbl" mod = "powdered"/>
+    <Ingredient name = "butter" quantity = "0.25" unit = "lb" mod = "melted" />
+    <Text>Mix some stuff together and make it purty</Text>
+  </Recipe>
+
+  <Recipe title = "Dummy recipe 2">
+    <Ingredient name = "milk" quantity = "0.33" unit = "cup" mod = "condensed"/>
+    <Ingredient name = "flour" quantity = "1.0" unit = "cup" mod = ""/>
+    <Ingredient name = "orphan tears" quantity = "99" unit = "ea" mod = ""/>
+    <Text>Yum, orphan tear milk gravy!</Text>
+  </Recipe>
+</RecipeDB>
