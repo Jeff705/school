@@ -53,8 +53,28 @@ class RRModel:
 
     def getRecipeText(self, recipeName):
         dbTree = self.recipeDB.get()
-        recipe = dbTree.findall(recipeName)
-        return recipe.find('Text').text
+        for recipe in dbTree.findall('Recipe'):
+            if recipe.get('title') == recipeName:
+                return self.buildRecipeBody(recipe)
+
+    def buildRecipeBody(self, recipe):
+        text = recipe.findtext('Text')
+        ingredientHeader = []
+        blurb = [recipe.findtext('Blurb'), '\n\n']
+        for ingredient in recipe.findall('Ingredient'):
+            ingredientHeader.append(ingredient.get('quantity'))
+            ingredientHeader.append(ingredient.get('unit'))
+            ingredientHeader.append(ingredient.get('name'))
+            ingredientHeader.append(',')
+            ingredientHeader.append(ingredient.get('mod'))
+            ingredientHeader.append('\n')
+        ingredientHeader.append('\n')
+        recipeBody = [recipe.get('title'), '\n\n']
+        recipeBody.extend(blurb)
+        recipeBody.extend(ingredientHeader)
+        recipeBody.append(text)
+        recipeBody = ' '.join(recipeBody)
+        return recipeBody
 
     def getOnhand(self):
         ingList = []

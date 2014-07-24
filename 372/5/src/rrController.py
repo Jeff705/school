@@ -12,6 +12,7 @@ class rrController:
         self.mainview.addIngredients.config(command = self.onhandDialog)
         self.mainview.newRecipe.config(command = self.newrecipeDialog)
         self.mainview.editmenu.add_command(label = 'New recipe', command = self.newrecipeDialog)
+        self.mainview.recipeList.bind('<Return>', self.showRecipeText)
 
 
         #at the end of initialization, tell program to update the recipe list
@@ -30,10 +31,14 @@ class rrController:
         for r in recipes:
             values.append(r.get('title'))
         self.mainview.updateRecipes(values)
-        pass
 
     def newrecipeDialog(self):
         dia = rrViews.rrAddRecipeDialog(self.mainview, title = 'Add a New Recipe')
+
+    def showRecipeText(self, event):
+        selection = event.widget.curselection()
+        text = self.model.getRecipeText(event.widget.get(selection[0]))
+        self.mainview.displayRecipe(text)
 
 
 if __name__ == "__main__":

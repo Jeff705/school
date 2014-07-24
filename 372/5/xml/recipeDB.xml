@@ -1,12 +1,14 @@
 <RecipeDB>
-  <Recipe title = "Dummy recipe 1">
+  <Recipe title = "Frosting (NOT REALLY DON'T MAKE THIS)">
+    <Blurb>This won't really make frosting, but you get the idea.</Blurb>
     <Ingredient name = "milk" quantity = "0.5" unit = "cup" mod = ""/>
     <Ingredient name = "sugar" quantity = "0.5" unit = "tbl" mod = "powdered"/>
     <Ingredient name = "butter" quantity = "0.25" unit = "lb" mod = "melted" />
-    <Text>Mix some stuff together and make it purty</Text>
+    <Text>Mix everything together in a bowl and frost ALL THE THINGS</Text>
   </Recipe>
 
   <Recipe title = "Dummy recipe 2">
+    <Blurb>Yeah, I got nothin'.</Blurb>
     <Ingredient name = "milk" quantity = "0.33" unit = "cup" mod = "condensed"/>
     <Ingredient name = "flour" quantity = "1.0" unit = "cup" mod = ""/>
     <Ingredient name = "orphan tears" quantity = "99" unit = "ea" mod = ""/>

@@ -21,7 +21,6 @@ class rrMainWindow(tk.Toplevel):
     self.toolbarFrame = tk.Frame(self)
     
     self.recipeList = tk.Listbox(self.selectFrame)
-    self.recipeList.bind('<Return>', self.displayRecipe)
     self.recipeList.config(height = 20)
     self.recipeList.pack(side = tk.TOP, pady = 4)
     self.recipeSearch = tk.Entry(self.selectFrame)
@@ -75,8 +74,9 @@ class rrMainWindow(tk.Toplevel):
     for r in recipes:
       self.recipeList.insert(tk.END, r)
 
-  def displayRecipe(self, event):
-    pass
+  def displayRecipe(self, text):
+    self.recipeText.delete(1.0, tk.END)
+    self.recipeText.insert(1.0, text)
 
   def saveCommand(self):
     pass
