@@ -1,9 +1,12 @@
+#TODO: bind controller constructor to checkbox, search button
+#TODO: use controller to assign any button functions that require updated values
+
 import Tkinter as tk
 import sys, os
 import rrModel
 
-MAINGEOMETRY = '800x600+200+200'
-INGGEOMETRY = '600x600'
+MAINGEOMETRY = '800x450+200+200'
+INGGEOMETRY = '400x600'
 
 class rrMainWindow(tk.Toplevel):
   def __init__(self, master):
@@ -36,26 +39,37 @@ class rrMainWindow(tk.Toplevel):
 
     self.makeToolbar()
     self.makeMenu()
-
+     
   def makeToolbar(self):
-    addIngredients = tk.Button(self.toolbarFrame, text = 'On-hand',
-                               command = self.changeOnhand)
-    addIngredients.pack(side = tk.LEFT, padx = 5, pady = 5)
-    newRecipe = tk.Button(self.toolbarFrame, text = 'Add Recipe',
-                          command = self.addRecipe)
-    newRecipe.pack(side = tk.LEFT, pady = 5)
+    self.addIngredients = tk.Button(self.toolbarFrame, text = 'On-hand')
+    self.addIngredients.pack(side = tk.LEFT, padx = 5, pady = 5)
+    self.newRecipe = tk.Button(self.toolbarFrame, text = 'Add Recipe')
+    self.newRecipe.pack(side = tk.LEFT, pady = 5)
     quit = tk.Button(self.toolbarFrame, text = 'Quit', command = self.quit)
     quit.pack(side = tk.RIGHT, padx = 5, pady = 5)
 
-  def addRecipe(self):
-    dia = rrAddRecipe(self, 'Add new recipe')
+  def newRecipe(self):
+    dia = rrAddRecipeDialog(self, 'Add new recipe')
 
   def changeOnhand(self):
     dia = rrIngDialog(self, 'Update on-hand ingredients')
 
   def makeMenu(self):
-    pass
-
+    bar = tk.Menu(self)
+    self.filemenu = tk.Menu(bar, tearoff = 0)
+    self.filemenu.add_command(label = 'Save changes')
+    self.filemenu.add_command(label = 'Exit', command = self.quit)
+    bar.add_cascade(menu = self.filemenu, label = 'File')
+    self.editmenu = tk.Menu(bar, tearoff=0)
+    bar.add_cascade(menu = self.editmenu, label = 'Edit')
+    aboutmenu = tk.Menu(bar, tearoff=0)
+    aboutmenu.add_command(label='Recipe Roundup', command=self.displayAbout)
+    bar.add_cascade(menu=aboutmenu, label='About')
+    self.config(menu=bar)
+  
+  def displayAbout(self):
+    dia = rrAboutDialog(self, 'About Recipe Roundup')
+    
   def updateRecipes(self, recipes):
     self.recipeList.delete(0, tk.END)
     for r in recipes:
@@ -64,6 +78,8 @@ class rrMainWindow(tk.Toplevel):
   def displayRecipe(self, event):
     pass
 
+  def saveCommand(self):
+    pass
 #This class taken from http://effbot.org/tkinterbook/tkinter-dialog-windows.htm
 class Dialog(tk.Toplevel):
   def __init__(self, parent, title = None):
@@ -78,9 +94,9 @@ class Dialog(tk.Toplevel):
 
     self.result = None
 
-    body = tk.Frame(self)
-    self.initial_focus = self.body(body)
-    body.pack(padx=5, pady=5)
+    self.body = tk.Frame(self)
+    self.initial_focus = self.makebody(self.body)
+    self.body.pack(padx=5, pady=5)
 
     self.buttonbox()
 
@@ -96,9 +112,7 @@ class Dialog(tk.Toplevel):
 
     self.initial_focus.focus_set()
 
-    self.wait_window(self)
-
-  def body(self, master):
+  def makebody(self, master):
         # create dialog body.  return widget that should have
         # initial focus.  this method should be overridden
 
@@ -153,19 +167,85 @@ class Dialog(tk.Toplevel):
 
     pass # override
 
-class rrAddRecipe(Dialog):
+class rrAddRecipeDialog(Dialog):
   def __init__(self, parent, title = None):
-    Dialog.__init__(self, parent, title)
-    #TODO: MAKE THE ACTUAL DIALOG
+    Dialog.__init__(self, parent, title)  
 
 class rrIngDialog(Dialog):
   def __init__(self, parent, title = None):
     Dialog.__init__(self, parent, title)
 
+  def buttonbox(self):
+    pass
+
+  def makebody(self, master):
+    allFrame = tk.Frame(master)
+    onHandFrame = tk.Frame(master)
+    addremButtonFrame = tk.Frame(master)
+    spacerFrame = tk.Frame(master)
+    cmdFrame = tk.Frame(master)
+    labelFrame = tk.Frame(master)
+
+    allIng = tk.Listbox(allFrame)
+    allBar = tk.Scrollbar(allFrame)
+    allIng.config(yscrollcommand = allBar.set)
+    allBar.config(command = allIng.yview)
+
+    allLabel = tk.Label(labelFrame, text = 'All ingredients')
+    allLabel.pack(side = tk.LEFT, padx = 5, pady = 5)
+
+    onHandIng = tk.Listbox(onHandFrame)
+    onHandBar = tk.Scrollbar(onHandFrame)
+    onHandIng.config(yscrollcommand = onHandBar.set)
+    onHandBar.config(command = onHandIng.yview)
+
+    onHandLabel = tk.Label(labelFrame, text = 'On-hand ingredients')
+    onHandLabel.pack(side = tk.RIGHT, padx = 5, pady = 5)
+
+    addButton = tk.Button(addremButtonFrame,text = '>>', command = self.add)
+    remButton = tk.Button(addremButtonFrame, text = '<<', command = self.remove)
+
+    self.saveButton = tk.Button(cmdFrame, text = 'Save')
+    cancelButton = tk.Button(cmdFrame,text = 'Cancel',command = self.cancel)
+
+    labelFrame.pack(fill = tk.X)
+    allFrame.pack(side = tk.LEFT)
+    onHandFrame.pack(side = tk.RIGHT)
+    addremButtonFrame.pack()
+    spacerFrame.pack()
+    cmdFrame.pack(side = tk.BOTTOM)
+    allIng.pack(side = tk.LEFT)
+    allBar.pack(side = tk.RIGHT, fill = tk.Y)
+    onHandIng.pack(side = tk.LEFT)
+    onHandBar.pack(side = tk.RIGHT, fill = tk.Y)
+    addButton.pack()
+    remButton.pack()
+    cancelButton.pack(side = tk.BOTTOM)
+    self.saveButton.pack(side = tk.BOTTOM)
+
+
+  def apply(self):
+    #notify controller that stuff happened, pass it the onhand list box   
+    pass
+  def add(self):
+    #check to see if ingredient is already in onhand list, if not, put it there
+    pass
+
+  def remove(self):
+    #remove selected ingredient from onhand (if there is one)
+    pass
+  
+  def ok(self, event = None):
+    self.apply()
+    self.cancel()
+
+class rrAboutDialog(Dialog):
+  def __init__(self, parent, title = None):
+    Dialog.__init__(self, parent, title)
+    
 if __name__ == "__main__":
   root = tk.Tk()
   root.withdraw()
   window = rrMainWindow(root)
   model = rrModel.RRModel()
-  window.updateRecipes(['stuff', 'otherstuff'])
   window.mainloop()
