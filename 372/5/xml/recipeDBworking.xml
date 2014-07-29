@@ -1,0 +1,161 @@
+<RecipeDB>
+  <Recipe title = "Frosting (NOT REALLY DON'T MAKE THIS)">
+    <Blurb>This won't really make frosting, but you get the idea.</Blurb>
+    <Ingredient name = "milk" quantity = "0.5" unit = "cup"/>
+    <Ingredient name = "sugar" quantity = "0.5" unit = "tbl" mod = "powdered"/>
+    <Ingredient name = "butter" quantity = "0.25" unit = "lb" mod = "melted" />
+    <Text>Mix everything together in a bowl and frost ALL THE THINGS</Text>
+  </Recipe>
+
+  <Recipe title = "Dummy recipe 2">
+    <Blurb>Yeah, I got nothin'.</Blurb>
+    <Ingredient name = "milk" quantity = "0.33" unit = "cup" mod = "condensed"/>
+    <Ingredient name = "flour" quantity = "1.0" unit = "cup"/>
+    <Ingredient name = "orphan tears" quantity = "99" unit = "ea"/>
+    <Text>Yum, orphan tear milk gravy!</Text>
+  </Recipe>
+
+  <Recipe title = "">
+    <Blurb></Blurb>
+    <Ingredient name = "" quantity = "" unit = "" mod = "" />
+    <Text></Text>
+  </Recipe>
+
+  <Recipe title = "">
+    <Blurb></Blurb>
+    <Ingredient name = "" quantity = "" unit = "" mod = "" />
+    <Text></Text>
+  </Recipe>
+
+  <Recipe title = "">
+    <Blurb></Blurb>
+    <Ingredient name = "" quantity = "" unit = "" mod = "" />
+    <Text></Text>
+  </Recipe>
+
+  <Recipe title = "">
+    <Blurb></Blurb>
+    <Ingredient name = "" quantity = "" unit = "" mod = "" />
+    <Text></Text>
+  </Recipe>
+
+  <Recipe title = "">
+    <Blurb></Blurb>
+    <Ingredient name = "" quantity = "" unit = "" mod = "" />
+    <Text></Text>
+  </Recipe>
+
+  <Recipe title = "">
+    <Blurb></Blurb>
+    <Ingredient name = "" quantity = "" unit = "" mod = "" />
+    <Text></Text>
+  </Recipe>
+
+  <Recipe title = "">
+    <Blurb></Blurb>
+    <Ingredient name = "" quantity = "" unit = "" mod = "" />
+    <Text></Text>
+  </Recipe>
+
+  <Recipe title = "">
+    <Blurb></Blurb>
+    <Ingredient name = "" quantity = "" unit = "" mod = "" />
+    <Text></Text>
+  </Recipe>
+
+  <Recipe title = "">
+    <Blurb></Blurb>
+    <Ingredient name = "" quantity = "" unit = "" mod = "" />
+    <Text></Text>
+  </Recipe>
+
+  <Recipe title = "">
+    <Blurb></Blurb>
+    <Ingredient name = "" quantity = "" unit = "" mod = "" />
+    <Text></Text>
+  </Recipe>
+
+  <Recipe title = "">
+    <Blurb></Blurb>
+    <Ingredient name = "" quantity = "" unit = "" mod = "" />
+    <Text></Text>
+  </Recipe>
+
+  <Recipe title = "">
+    <Blurb></Blurb>
+    <Ingredient name = "" quantity = "" unit = "" mod = "" />
+    <Text></Text>
+  </Recipe>
+
+  <Recipe title = "">
+    <Blurb></Blurb>
+    <Ingredient name = "" quantity = "" unit = "" mod = "" />
+    <Text></Text>
+  </Recipe>
+
+  <Recipe title = "">
+    <Blurb></Blurb>
+    <Ingredient name = "" quantity = "" unit = "" mod = "" />
+    <Text></Text>
+  </Recipe>
+
+  <Recipe title = "">
+    <Blurb></Blurb>
+    <Ingredient name = "" quantity = "" unit = "" mod = "" />
+    <Text></Text>
+  </Recipe>
+
+  <Recipe title = "">
+    <Blurb></Blurb>
+    <Ingredient name = "" quantity = "" unit = "" mod = "" />
+    <Text></Text>
+  </Recipe>
+
+  <Recipe title = "">
+    <Blurb></Blurb>
+    <Ingredient name = "" quantity = "" unit = "" mod = "" />
+    <Text></Text>
+  </Recipe>
+
+  <Recipe title = "">
+    <Blurb></Blurb>
+    <Ingredient name = "" quantity = "" unit = "" mod = "" />
+    <Text></Text>
+  </Recipe>
+
+  <Recipe title = "">
+    <Blurb></Blurb>
+    <Ingredient name = "" quantity = "" unit = "" mod = "" />
+    <Text></Text>
+  </Recipe>
+
+  <Recipe title = "">
+    <Blurb></Blurb>
+    <Ingredient name = "" quantity = "" unit = "" mod = "" />
+    <Text></Text>
+  </Recipe>
+
+  <Recipe title = "">
+    <Blurb></Blurb>
+    <Ingredient name = "" quantity = "" unit = "" mod = "" />
+    <Text></Text>
+  </Recipe>
+
+  <Recipe title = "">
+    <Blurb></Blurb>
+    <Ingredient name = "" quantity = "" unit = "" mod = "" />
+    <Text></Text>
+  </Recipe>
+
+  <Recipe title = "">
+    <Blurb></Blurb>
+    <Ingredient name = "" quantity = "" unit = "" mod = "" />
+    <Text></Text>
+  </Recipe>
+
+  <Recipe title = "">
+    <Blurb></Blurb>
+    <Ingredient name = "" quantity = "" unit = "" mod = "" />
+    <Text></Text>
+  </Recipe>
+</RecipeDB>
