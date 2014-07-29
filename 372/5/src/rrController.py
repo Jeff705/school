@@ -1,35 +1,53 @@
-import sys, os
-import DataRepo
-import Observable
 import Tkinter as tk
 import rrModel
 import rrViews
+import xml.etree.cElementTree as ET
+import copy
 
 class rrController:
     def __init__(self, root):
+        self.dia = None
         self.model = rrModel.RRModel()
         self.mainview = rrViews.rrMainWindow(root)
         self.mainview.addIngredients.config(command = self.onhandDialog)
         self.mainview.newRecipe.config(command = self.newrecipeDialog)
         self.mainview.editmenu.add_command(label = 'New recipe', command = self.newrecipeDialog)
-        self.mainview.recipeList.bind('<Return>', self.showRecipeText)
+        self.mainview.recipeList.bind('<<ListboxSelect>>', self.showRecipeText)
+        self.mainview.dispAll.trace("w", self.setRecipeViewMode)
 
 
         #at the end of initialization, tell program to update the recipe list
-        self.onhandUpdated()
+        self.updateAvailableRecipes()
 
+    def setRecipeViewMode(self, *args):
+        mode = self.mainview.getDisplayMode()
+        self.updateAvailableRecipes()
 
     def onhandDialog(self):
-        dia = rrViews.rrIngDialog(self.mainview, title = 'Update Onhand Ingredients')
-        dia.saveButton.config(command = dia.ok)
-        dia.saveButton.bind('<Button-1>', self.onhandUpdated())
-        dia.wait_window(dia)
+        self.dia = rrViews.rrIngDialog(self.mainview, title = 'Update Onhand Ingredients')
+        self.dia.saveButton.config(command = self.dia.ok)
+        self.dia.saveButton.bind('<Button-1>', self.saveOnhand)
+        alling = copy.deepcopy(self.model.getAllIng())
+        self.dia.populateLists(self.model.getOnhandList(), alling)
+        self.dia.wait_window(self.dia)
 
-    def onhandUpdated(self):
-        recipes = self.model.query()
+    def saveOnhand(self, *args):
+        onHand = self.dia.returnOnhand()
+        root = ET.Element('OnHand')
+        for ingredient in onHand:
+            newElement = ET.Element('Ingredient', name = ingredient)
+            root.append(newElement)
+        self.model.setOnhand(root)
+        self.updateAvailableRecipes()
+
+
+    def updateAvailableRecipes(self, *args):
+        mode = self.mainview.getDisplayMode()
+        recipes = self.model.query(mode)
         values = []
-        for r in recipes:
-            values.append(r.get('title'))
+        for child in recipes:
+            values.append(child.get('title'))
+        self.model.availableRecipes = values
         self.mainview.updateRecipes(values)
 
     def newrecipeDialog(self):
