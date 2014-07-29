@@ -11,10 +11,13 @@ class RRModel:
         self.availableRecipes = obs.Observable(self.query(False))
         self.dbChanged = False
 
+    def getOnhand(self):
+        return self.onHand.get()
+
     def setOnhand(self, root):
         self.onHand.set(root)
     # query() - runs a search on the recipe DB using the tree of onhand ingredients.
-    # returns a list of available recipes.
+    # returns the root element <Available> with available ingredients as subelements.
     def query(self, viewAll):
 
         inglist = []

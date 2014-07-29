@@ -14,7 +14,6 @@ class rrMainWindow(tk.Toplevel):
         self.protocol('WM_DELETE_WINDOW', self.master.destroy)
         self.geometry(MAINGEOMETRY)
         self.title('RRoundup')
-        self.bind('<Escape>', lambda event: self.quit())
 
         self.selectFrame = tk.Frame(self)
         self.textFrame = tk.Frame(self)
@@ -63,8 +62,8 @@ class rrMainWindow(tk.Toplevel):
         self.addIngredients.pack(side = tk.LEFT, padx = 5, pady = 5)
         self.newRecipe = tk.Button(self.toolbarFrame, text = 'Add Recipe')
         self.newRecipe.pack(side = tk.LEFT, pady = 5)
-        quit = tk.Button(self.toolbarFrame, text = 'Quit', command = self.quit)
-        quit.pack(side = tk.RIGHT, padx = 5, pady = 5)
+        self.quitbutton = tk.Button(self.toolbarFrame, text = 'Quit')
+        self.quitbutton.pack(side = tk.RIGHT, padx = 5, pady = 5)
 
     def newRecipe(self):
         dia = rrAddRecipeDialog(self, 'Add new recipe')
@@ -75,8 +74,6 @@ class rrMainWindow(tk.Toplevel):
     def makeMenu(self):
         bar = tk.Menu(self)
         self.filemenu = tk.Menu(bar, tearoff = 0)
-        self.filemenu.add_command(label = 'Save changes')
-        self.filemenu.add_command(label = 'Exit', command = self.quit)
         bar.add_cascade(menu = self.filemenu, label = 'File')
         self.editmenu = tk.Menu(bar, tearoff=0)
         bar.add_cascade(menu = self.editmenu, label = 'Edit')
@@ -193,7 +190,6 @@ class rrAddRecipeDialog(Dialog):
 class rrIngDialog(Dialog):
     def __init__(self, parent, title = None):
         Dialog.__init__(self, parent, title)
-        print "constructing an ingdialog"
 #don't need a buttonbox for this subclass of dialog
     def buttonbox(self):
         pass
@@ -249,12 +245,10 @@ class rrIngDialog(Dialog):
         onHand.sort()
         allIng.sort()
         for ingredient in onHand:
-            print " in onHand", ingredient
             self.onHandIng.insert(tk.END, ingredient)
             if ingredient in allIng:
                 allIng.remove(ingredient)
         for ingredient in allIng:
-            print "in allIng", ingredient
             self.allIng.insert(tk.END, ingredient)
 
     def returnOnhand(self):

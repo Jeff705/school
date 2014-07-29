@@ -20,6 +20,8 @@ class DataRepo(BaseException):
         os.chdir('..')
         self.directory = os.getcwd()
         self.workingFile = None
+        self.onhandFile = None
+        self.dbFile = None
         self.onhand = self.loadOnhand()
         self.recipedb = self.loadDB()
         self.alling = self.loadAlling()
@@ -29,12 +31,13 @@ class DataRepo(BaseException):
         os.path.walk(self.directory, findFile, ONHAND)
         if ONHAND in self.workingFile:
             data = ET.parse(self.workingFile).getroot()
+            self.onhandFile = self.workingFile
         else:
             data = ET.Element('OnHand')
             print "Failed to find a working file, starting with a blank tree"
         return data
 
-    #builds a list of ingredients from all recipes in the recipe DB.
+    #loadAlling() builds a list of ingredients from all recipes in the recipe DB.
     #returns a sorted list of ingredients
 
     def loadAlling(self):
@@ -52,6 +55,7 @@ class DataRepo(BaseException):
         os.path.walk(self.directory, findFile, DB)
         if DB in self.workingFile:
             data = ET.parse(self.workingFile).getroot()
+            self.dbFile = self.workingFile
         else:
             data = ET.Element("RecipeDB")
             print "DB load from file failed, creating blank recipe database"
@@ -66,8 +70,9 @@ class DataRepo(BaseException):
     def getDB(self):
         return self.recipedb
 
-    def writeOnhand(self):
-        pass
+    def writeOnhand(self, toWrite):
+        treeToWrite = ET.ElementTree(toWrite)
+        treeToWrite.write(self.onhandFile)
 
     def writeDB(self):
         pass

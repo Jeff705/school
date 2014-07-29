@@ -1,5 +1,1 @@
-<OnHand>
-  <Ingredient name = "milk" />
-  <Ingredient name = "sugar" />
-  <Ingredient name = "butter" />
-</OnHand>
+<OnHand><Ingredient name="flour" /><Ingredient name="milk" /><Ingredient name="sugar" /></OnHand>

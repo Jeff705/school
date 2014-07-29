@@ -3,6 +3,7 @@ import rrModel
 import rrViews
 import xml.etree.cElementTree as ET
 import copy
+import DataRepo as repo
 
 class rrController:
     def __init__(self, root):
@@ -14,10 +15,20 @@ class rrController:
         self.mainview.editmenu.add_command(label = 'New recipe', command = self.newrecipeDialog)
         self.mainview.recipeList.bind('<<ListboxSelect>>', self.showRecipeText)
         self.mainview.dispAll.trace("w", self.setRecipeViewMode)
+        self.mainview.quitbutton.configure(command = self.saveExit)
 
-
+        self.mainview.filemenu.add_command(label = 'Save changes', command = self.save)
+        self.mainview.filemenu.add_command(label = 'Exit', command = self.saveExit)
         #at the end of initialization, tell program to update the recipe list
         self.updateAvailableRecipes()
+
+    def save(self):
+        onhand = self.model.getOnhand()
+        repo.getRepo().writeOnhand(onhand)
+
+    def saveExit(self):
+        self.save()
+        self.mainview.quit()
 
     def setRecipeViewMode(self, *args):
         mode = self.mainview.getDisplayMode()
@@ -55,8 +66,9 @@ class rrController:
 
     def showRecipeText(self, event):
         selection = event.widget.curselection()
-        text = self.model.getRecipeText(event.widget.get(selection[0]))
-        self.mainview.displayRecipe(text)
+        if selection:
+            text = self.model.getRecipeText(event.widget.get(selection[0]))
+            self.mainview.displayRecipe(text)
 
 
 if __name__ == "__main__":
