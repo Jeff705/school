@@ -1,17 +1,318 @@
 <RecipeDB>
-  <Recipe title = "Frosting (NOT REALLY DON'T MAKE THIS)">
-    <Blurb>This won't really make frosting, but you get the idea.</Blurb>
-    <Ingredient name = "milk" quantity = "0.5" unit = "cup"/>
-    <Ingredient name = "sugar" quantity = "0.5" unit = "tbl" mod = "powdered"/>
-    <Ingredient name = "butter" quantity = "0.25" unit = "lb" mod = "melted" />
-    <Text>Mix everything together in a bowl and frost ALL THE THINGS</Text>
-  </Recipe>
+ <Recipe title = "Tomato Basil Pasta">
+   <Blurb>Apparently pretty amazing.</Blurb>
+   <Ingredient name = "pasta" quantity = "0.5" unit = "cup"/>
+   <Ingredient name = "diced tomatoes" quantity = "1" unit = "can" mod = "15 oz."/>
+   <Ingredient name = "onion" quantity = "1" unit = "ea" mod = "julienned" />
+   <Ingredient name = "garlic" quantity = "4" unit = "ea" mod = "cloves" />
+   <Ingredient name = "red pepper" quantity = "0.25" unit = "lb" mod = "flakes" />
+   <Ingredient name = "oregano" quantity = "2" unit = "tsp" mod = "dried" />
+   <Ingredient name = "basil" quantity = "2" unit = "ea" mod = "sprigs" />
+   <Ingredient name = "vegetable broth" quantity = "4.5" unit = "cup"/>
+   <Ingredient name = "olive oil" quantity = "2" unit = "tbsp" mod = "extra virgin" />
+   <Ingredient name = "parmesan cheese" quantity = "1" unit = "to taste"/>
+   <Text>Place pasta, tomatoes, onion, garlic, basil, in a large stock pot. Pour in vegetable broth. Sprinkle on top the pepper flakes and oregano. Drizzle top with oil.
 
-  <Recipe title = "Dummy recipe 2">
-    <Blurb>Yeah, I got nothin'.</Blurb>
-    <Ingredient name = "milk" quantity = "0.33" unit = "cup" mod = "condensed"/>
-    <Ingredient name = "flour" quantity = "1.0" unit = "cup"/>
-    <Ingredient name = "orphan tears" quantity = "99" unit = "ea"/>
-    <Text>Yum, orphan tear milk gravy!</Text>
-  </Recipe>
+Cover pot and bring to a boil. Reduce to a low simmer and keep covered and cook for about 10 minutes, stirring every 2 minutes or so. Cook until almost all liquid has evaporated – I left about an inch of liquid in the bottom of the pot – but you can reduce as desired .
+
+Season to taste with salt and pepper , stirring pasta several times to distribute the liquid in the bottom of the pot. Serve garnished with Parmesan cheese.
+Read more at http://myfridgefood.com/ViewRecipe.aspx?recipe=21011#IAOLIb5xi7vPYvJi.99</Text>
+ </Recipe>
+
+ <Recipe title = "Spicy Corn and Kale-Stuffed Chicken">
+   <Blurb>Superfood kale and sweet corn create a duo rich in vitamin A. The pepper jack cheese adds tons of spice while binding the stuffing for the chicken. If spicy's not your thing, try Monterey Jack or Havarti cheese instead for creamy without the heat. Recipe courtesy The Food Network.
+</Blurb>
+   <Ingredient name = "olive oil" quantity = "4" unit = "tsp" />
+   <Ingredient name = "kale" quantity = "5.5" unit = "oz" mod = "chopped" />
+   <Ingredient name = "garlic" quantity = "2" unit = "ea" mod = "cloves, finely chopped" />
+   <Ingredient name = "salt" quantity = "1" unit = "ea" mod = "to taste" />
+   <Ingredient name = "corn" quantity = "0.33" unit = "cup" mod = "frozen, whole kernel" />
+   <Ingredient name = "pepper jack" quantity = "2" unit = "oz" mod = "grated" />
+   <Ingredient name = "chicken breasts" quantity = "4" unit = "ea" mod = "8 oz boneless, skinless" />
+   <Ingredient name = "black pepper" quantity = "1" unit = "ea" mod = "to taste" />
+   <Ingredient name = "chicken broth" quantity = "0.5" unit = "cup" mod = "low sodium" />
+   <Ingredient name = "all-purpose flour" quantity = "1" unit = "tsp" />
+   <Ingredient name = "lemon juice" quantity = "1.5" unit = "tsp" mod = "fresh" />
+
+
+   <Text>Heat 2 tsp oil in large skillet over medium heat. Add kale, garlic, 0.25 tsp salt and cook, stirring until kale is softened and garlic fragrant, about five minutes. Add corn and cook, stirring until warmed through, 2-3 minutes more. Transfer to a bowl to cool slightly, and then stir in cheese.
+
+Insert thin paring knife into thickest part of chicken breast and cut down side to make 3-inch pocket. Stuff with kale mixture.
+
+Heat a large non-stick skillet over medium-high heat until very hot,3-4 minutes. Rub chicken with the remaining oil and 0.75 tsp salt and 0.25 tsp black pepper. Cook until golden brown, about 2 minutes. Lower heat to medium. Continue cooking, turning once halfway through until just cooked through, about 13 minutes more.
+
+Transfer chicken and any bits of filling to plates. Stir broth and flour together in small bowl, then add to skillet. Cook, stirring until thickened, about 2 minutes. Remove from heat stir in the lemon juice and season with salt and pepper. Spoon sauce over chicken. 
+
+Enjoy!</Text>
+ </Recipe>
+
+ <Recipe title = "Potato Frittata">
+   <Blurb>What’s a frittata?  Awesome is what it is.</Blurb>
+   <Ingredient name = "potato" quantity = "1" unit = "lb" mod = "Yukon gold or russet" />
+   <Ingredient name = "olive oil" quantity = "2" unit = "tbsp" />
+   <Ingredient name = "carrots" quantity = "2" unit = "ea" mod = "large, thinly sliced" />
+   <Ingredient name = "eggs" quantity = "12" unit = "ea" mod = "lightly beaten" />
+   <Ingredient name = "green onion" quantity = "0.5" unit = "cup" mod = "chopped" />
+   <Ingredient name = "salt" quantity = "0.25" unit = "tsp" />
+   <Ingredient name = "black pepper" quantity = "0.25" unit = "tsp" />
+   <Ingredient name = "cherry tomatoes" quantity = "0.5" unit = "cup" mod = "halved" />
+   <Ingredient name = "garlic" quantity = "1" unit = "ea" mod = "clove, minced" />
+   <Ingredient name = "cilantro" quantity = "1" unit = "ea" mod = "to taste" />           
+   <Text>Preheat oven to 375 degrees F. In a 10-inch oven-safe nonstick skillet cook potatoes in hot oil over medium heat for 5 minutes. Add carrots; cook for 5 minutes, until potatoes and carrots are tender and lightly browned, turning occasionally
+In a medium bowl whisk together the eggs, half the green onions, salt, and pepper. Pour egg mixture over potatoes. Bake, uncovered, about 18 minutes or until frittata appears dry on top. Remove frittata from oven. Let stand on a wire rack for 5 minutes.
+Meanwhile, for topper, in a small bowl gently toss together remaining green onions, cherry tomatoes, garlic, and parsley. Set aside.
+With a spatula, loosen edges of frittata from skillet. Place a large serving platter over skillet. Using two hands, invert platter and skillet to release frittata onto platter. Cut frittata in wedges. Serve with green onion topper.
+   </Text>
+ </Recipe>
+
+ <Recipe title = "Grandma’s Meat Loaf">
+   <Blurb>This meat loaf is old-fashioned, made with lean ground beef, chili sauce or ketchup, oats, and other ingredients and seasonings. I usually use extra lean ground beef with 0.5 lbs of ground pork. If you use all ground beef, 85% makes a good, juicy meatloaf, or choose ground chuck or ground round.</Blurb>
+   <Ingredient name = "vegetable oil" quantity = "1" unit = "tbsp" />
+   <Ingredient name = "celery" quantity = "2" unit = "ea" mod = "ribs, chopped" />
+   <Ingredient name = "onion" quantity = "0.5" unit = "cups" mod = "chopped" />
+   <Ingredient name = "red pepper" quantity = "0.5" unit = "cups" mod = "chopped" />
+   <Ingredient name = "ground beef" quantity = "1.5" unit = "lbs" />
+   <Ingredient name = "oats" quantity = "0.75" unit = "cups" mod = "quick or old fashioned" />
+   <Ingredient name = "chili sauce or ketchup" quantity = "0.25" unit = "cups" />
+   <Ingredient name = "Worcestershire sauce" quantity = "1" unit = "tbsp" />
+   <Ingredient name = "salt" quantity = "1.5" unit = "tsp" />
+   <Ingredient name = "egg" quantity = "1" unit = "ea" mod = "beaten" />
+   <Ingredient name = "milk" quantity = "3" unit = "tbsp" mod = "or water"/>
+   
+   <Text>Heat oil in a large skillet over medium heat. Add chopped celery and onion;  cook, stirring until tender, about 7-9 minutes.
+
+In a large bowl, mix ground beef, oats, chili sauce or ketchup, Worcestershire sauce, salt, beaten egg, celery, and onion mixture, and the water or milk. In a 13 × 9-inch baking pan, shape meat mixture into a 9 × 5-inch loaf. Bake at 375° for 1 hour. Using 2 spatulas, carefully remove meat loaf to serving plate and slice.
+
+Serves 6-8.</Text>
+ </Recipe>
+
+ <Recipe title = "Fajita-Style Quesadillas">
+   <Blurb>This recipe probably needs modification, it’s not quite as “zazzy” as I’d like.</Blurb>
+   <Ingredient name = "sweet pepper" quantity = "0.5" unit = "ea" mod = "red or green, seeded, cut into strips" />
+   <Ingredient name = "onion" quantity = "0.5" unit = "ea" mod = "halved and thinly sliced" />
+   <Ingredient name = "serrano" quantity = "1" unit = "ea" mod = "halved, seeded, cut into strips" />
+   <Ingredient name = "vegetable oil" quantity = "2" unit = "tsp" />
+   <Ingredient name = "corn tortilla" quantity = "4" unit = "ea" mod = "6-inch white corn" />
+   <Ingredient name = "cooking spray" quantity = "1" unit = "ea" mod = "as needed" />
+   <Ingredient name = "pepper jack" quantity = "0.5" unit = "cup" mod = "shredded" />
+   <Ingredient name = "tomato" quantity = "2" unit = "ea" mod = "thin slices, halved" />
+   <Ingredient name = "cilantro" quantity = "1" unit = "tbsp" mod = "fresh snipped" />
+   <Ingredient name = "sour cream" quantity = "1" unit = "ea" mod = "to taste" />
+   <Ingredient name = "lime" quantity = "1" unit = "ea" mod = "wedges, to taste" />
+   <Text>In a large skillet cook sweet pepper, onion, and serrano pepper in hot oil over medium-high heat for 3 to 5 minutes or until vegetables are just tender. Remove from heat.
+Lightly coat one side of each tortilla with cooking spray. On the uncoated side of two of the tortillas, divide half of the cheese. Top with onion mixture, tomato slices, the 1 tablespoon cilantro, and the remaining cheese. Top with remaining tortillas, coated sides up.
+Heat a very large skillet or griddle over medium heat. Cook quesadillas for 4 to 5 minutes per side or until cheese melts and tortillas are lightly browned. Cut each quesadilla into 4 wedges. Serve warm and, if desired, with sour cream, additional cilantro and lime wedges.
+Optional: Add beans, chicken, or another protein for a heartier meal!
+   </Text>
+ </Recipe>
+
+ <Recipe title = "Farfalle with Mushrooms and Spinach">
+   <Blurb>Simple, delicious, and healthy… what’s not to love?</Blurb>
+   <Ingredient name = "pasta" quantity = "6" unit = "oz" mod = "farfalle (bow-tie)" />
+   <Ingredient name = "olive oil" quantity = "1" unit = "tbsp" />
+   <Ingredient name = "onion" quantity = "1" unit = "ea" mod = "chopped" />
+   <Ingredient name = "mushroom" quantity = "1" unit = "cup" mod = "sliced portobello or similar" />
+   <Ingredient name = "garlic" quantity = "2" unit = "ea" mod = "cloves, minced" />
+   <Ingredient name = "spinach" quantity = "4" unit = "cup" mod = "thinly sliced" />
+   <Ingredient name = "thyme" quantity = "1" unit = "tsp" mod = "fresh snipped" />
+   <Ingredient name = "black pepper" quantity = "0.125" unit = "tsp" />
+   <Ingredient name = "parmesan cheese" quantity = "2" unit = "tbsp" mod = "shredded" />
+   <Text>Cook farfalle according to package directions. Drain well.
+Meanwhile, in a large skillet, heat oil over medium heat. Add onion, mushrooms, and garlic; cook and stir for 2 to 3 minutes or until mushrooms are nearly tender. Stir in spinach, thyme, and pepper; cook 1 minute or until heated through and spinach is slightly wilted. Stir in cooked pasta; toss gently to mix. Sprinkle with cheese. Makes 4 side-dish servings.
+   </Text>
+ </Recipe>
+
+ <Recipe title = "Mary Anne’s Apples">
+   <Blurb>A recipe from my grandmother. This is a good, quick dessert.</Blurb>
+   <Ingredient name = "bread" quantity = "4" unit = "ea" mod = "slices"/>
+   <Ingredient name = "apples" quantity = "1" unit = "can" mod = "sliced" />
+   <Ingredient name = "sugar" quantity = "1" unit = "cup" />
+   <Ingredient name = "cinnamon" quantity = "1" unit = "tsp" />
+   <Ingredient name = "allspice" quantity = "0.25" unit = "tsp" />
+   <Ingredient name = "butter" quantity = "8" unit = "tbsp" mod = "or margarine"/>
+
+   
+   <Text>Heat together apples, sugar, cinnamon, and allspice until sugar is melted.
+
+Put apple mixture into a casserole dish. Cube the 4 bread slices. Melt stick of margarine or butter in a frying pan. Add bread cubes and toss until bread is covered. Put bread cubes on top of apples and bake at 325° for 45 minutes to 1 hour.</Text>
+ 
+</Recipe>
+
+ <Recipe title = "Ragan’s Favorite Pancakes">
+   <Blurb>The title says it all. There are no other pancakes.</Blurb>
+   <Ingredient name = "all-purpose flour" quantity = "1" unit = "cup" />
+   <Ingredient name = "sugar" quantity = "2" unit = "tbsp" />
+   <Ingredient name = "baking powder" quantity = "1" unit = "tbsp" />
+   <Ingredient name = "salt" quantity = "0.5" unit = "tsp" />
+   <Ingredient name = "egg" quantity = "1" unit = "ea" />
+   <Ingredient name = "butter" quantity = "2" unit = "tbsp" />
+   <Ingredient name = "milk" quantity = "0.75" unit = "cup" />
+   <Text>Mix dry ingredients together in a bowl and set aside. Melt butter, add milk and egg, mix thoroughly. Add wet ingredients to dry and mix, taking care not to over-mix.
+Cook over medium heat in a nonstick pan or griddle.
+Optional: May add chocolate chips, pecans, or other goodies to suit your own tastes.
+   </Text>
+ </Recipe>
+
+ <Recipe title = "Sweet Chicken Chili">
+   <Blurb>This is a recipe from my mom. Very tasty and easy to prepare.</Blurb>
+   <Ingredient name = "onion" quantity = "0.5" unit = "cup" mod = "chopped" />
+   <Ingredient name = "butter" quantity = "1" unit = "tbsp" />
+   <Ingredient name = "chicken" quantity = "2" unit = "lbs" mod = "(may substitute beef)"/>
+   <Ingredient name = "ketchup" quantity = "0.66" unit = "cup" />
+   <Ingredient name = "water" quantity = "0.5" unit = "cup" />
+   <Ingredient name = "celery" quantity = "0.25" unit = "cup" mod = "chopped" />
+   <Ingredient name = "lemon juice" quantity = "2" unit = "tbsp" />
+   <Ingredient name = "brown sugar" quantity = "1" unit = "tbsp" mod = "or more to taste" />
+   <Ingredient name = "Worcestershire sauce" quantity = "1.5" unit = "tsp" />
+   <Ingredient name = "apple cider vinegar" quantity = "1" unit = "tsp" />
+   <Ingredient name = "dry mustard" quantity = "0.25" unit = "tsp" />
+   <Ingredient name = "kidney beans" quantity = "15" unit = "oz" mod = "canned" />
+   <Ingredient name = "tomato juice" quantity = "0.5-1" unit = "cup" />
+   <Ingredient name = "chili powder" quantity = "5" unit = "tsp" mod = "or more, to taste" />
+   <Text>Saute onion and celery in butter in a large pot. Add chicken (or beef) and cook until lightly browned. Add remaining ingredients and simmer for 30 minutes OR cook on low in crock pot.</Text>
+ </Recipe>
+
+ <Recipe title = "Plain ol’ waffles">
+   <Blurb>They may be plain, but they’re tasty!</Blurb>
+   <Ingredient name = "all-purpose flour" quantity = "2" unit = "cup" />
+   <Ingredient name = "baking powder" quantity = "2.5" unit = "tsp" />
+   <Ingredient name = "sugar" quantity = "3" unit = "tbsp" />
+   <Ingredient name = "salt" quantity = "0.5" unit = "tsp" />
+   <Ingredient name = "egg" quantity = "2" unit = "ea" />
+   <Ingredient name = "milk" quantity = "1.5-1.75" unit = "cup" />
+   <Ingredient name = "butter" quantity = "2" unit = "tbsp" mod = "melted" />
+   <Text>Mix dry ingredients together in a bowl and set aside. Melt butter, add milk and eggs, mix thoroughly. Add wet ingredients to dry and mix, taking care not to over-mix.
+Cook over medium heat in a nonstick pan or griddle.
+Optional: May add chocolate chips, pecans, or other goodies to suit your own tastes.
+</Text>
+ </Recipe>
+
+ <Recipe title = "Broccoli Casserole">
+   <Blurb>The Esso Club can suck it. This is the best broccoli casserole and it’s so easy to make! A family favorite requested every single Thanksgiving and Christmas.</Blurb>
+   <Ingredient name = "broccoli" quantity = "3" unit = "ea" mod = "heads" />
+   <Ingredient name = "cheddar cheese" quantity = "1.5" unit = "cup" />
+   <Ingredient name = "eggs" quantity = "2" unit = "ea" mod = "lightly beaten" />
+   <Ingredient name = "mayonnaise" quantity = "0.5" unit = "cups" />
+   <Ingredient name = "onion" quantity = "0.5" unit = "cups" mod = "chopped" />
+   <Ingredient name = "cream of mushroom soup" quantity = "1" unit = "ea" mod = "can" />
+   <Ingredient name = "salt" quantity = "1" unit = "ea" mod = "to taste" />
+   <Ingredient name = "black pepper" quantity = "1" unit = "ea" mod = "to taste" />
+   <Ingredient name = "bread crumbs" quantity = "1" unit = "cup" mod = "(I highly recommend crushed corn flakes)" />
+
+     <Text>Cook the broccoli by steaming or boiling, until bright green and still firm. 
+
+In a bowl, mix eggs, mayo, onion, salt, and pepper. Stir in soup, ⅓ can of water, and 1 cup of cheese. Drain broccoli (if boiled) and put in soup mixture. Put broccoli mixture into a 13 × 9 casserole dish. Top with bread crumbs (or corn flakes) and 0.5 cups cheese. Bake at 350° for 30-40 minutes, or until bread crumbs are a lovely golden-brown.
+
+Bon appetit! 
+ </Text>
+ </Recipe>
+
+ <Recipe title = "Squash Casserole">
+   <Blurb>This is a great complement to the Broccoli Casserole. Quick, delicious, and cheesy.</Blurb>
+   <Ingredient name = "squash" quantity = "4" unit = "ea" mod = "sliced, boiled or steamed" />
+   <Ingredient name = "eggs" quantity = "2" unit = "ea" mod = "boiled and chopped" />
+   <Ingredient name = "onions" quantity = "0.5" unit = "cups" mod = "chopped, sauteed" />
+   <Ingredient name = "salt" quantity = "1" unit = "ea" mod = "to taste" />
+   <Ingredient name = "black pepper" quantity = "1" unit = "ea" mod = "to taste" />
+   <Ingredient name = "cheddar cheese" quantity = "1" unit = "cup" mod = "divided in half" />
+   <Ingredient name = "bread crumbs" quantity = "1" unit = "cup" mod = "(I highly recommend crushed corn flakes)" />
+   
+   <Text>Set aside half the cheese (0.5 cups)and bread crumbs. Mix together squash, eggs, onions, salt, pepper, and the second half of the cheese. Put mixture into a small casserole dish. Cover with remaining cheese and bread crumbs. Bake at 350° for 30-45 minutes or until cheese is bubbling and bread crumbs are golden-brown.</Text>
+ </Recipe>
+
+ <Recipe title = "Stuffing [Bread and Celery]">
+   <Blurb>Simple and tasty and an absolute must for Turkey Day!</Blurb>
+   <Ingredient name = "bread" quantity = "1" unit = "lb" mod = "various kinds: whole wheat, rye, white, etc" />
+   <Ingredient name = "butter" quantity = "0.75" unit = "cup" />   
+   <Ingredient name = "onion" quantity = "1" unit = "ea" mod = "chopped" />
+   <Ingredient name = "celery" quantity = "4" unit = "ea" mod = "stalks" />
+   <Ingredient name = "poultry seasoning" quantity = "2" unit = "tsp" />
+   <Ingredient name = "salt" quantity = "1" unit = "ea" mod = "to taste" />
+   <Ingredient name = "black pepper" quantity = "1" unit = "ea" mod = "to taste" />
+   <Ingredient name = "chicken broth" quantity = "1" unit = "cup" />
+   <Text>Let bread air dry 1-2 hours, then cut into 1” × 1” cubes. In Dutch over, melt butter over medium heat. Cook onion and celery until soft. Season with salt and pepper and poultry seasoning. Stir in bread until evenly coated. Moisten with broth. Remove from heat and chill. After bread is cooled, stuff in a turkey or buttered casserole dish. Cook at 325° for 30-40 minutes.</Text>
+ </Recipe>
+
+ <Recipe title = "Homemade Chicken Broth">
+   <Blurb>Broth from a can or box is all well and good, but there is nothing quite like homemade broth. So warm, homey, and inviting. When it’s homemade you get to decide how much salt goes into it. </Blurb>
+   <Ingredient name = "whole chicken" quantity = "1" unit = "ea" />
+   <Ingredient name = "chicken neck" quantity = "1" unit = "ea" />
+   <Ingredient name = "carrots" quantity = "2" unit = "ea" mod = "cut into 2” pieces" />
+   <Ingredient name = "celery" quantity = "1" unit = "ea" mod = "stalk, cut into 2” pieces" />
+   <Ingredient name = "onion" quantity = "1" unit = "ea" mod = "cut into quarters" />
+   <Ingredient name = "parsley" quantity = "5" unit = "ea" mod = "sprigs" />
+   <Ingredient name = "garlic" quantity = "1" unit = "ea" mod = "clove" />
+   <Ingredient name = "thyme" quantity = "0.5" unit = "tsp" />
+   <Ingredient name = "bay leaf" quantity = "0.5" unit = "ea" />
+   
+   <Text>Put chicken and other ingredients in a large pot and add enough water to cover it completely. Bring to a boil. Once boiling, skim foam from surface. Reduce heat to simmer. Cook for an hour, turning the chicken once halfway through cooking. Skim surface again after it’s done cooking. 
+
+Remove pot from heat and transfer chicken to large bowl. Let chicken cool, then remove skin and bones, but do NOT throw them away. Return skin and bones to pot and heat again to boiling. Reduce heat and simmer for 3 hours.
+
+When it’s done, strain broth through a colander into a large bowl. Discard solids. Strain broth again through a sieve into containers. Store in the refrigerator. Once completely cooled, scrape any fat from top of broth and throw away.</Text>
+ </Recipe>
+
+ <Recipe title = "Poultry Seasoning">
+   <Blurb>No need to buy poultry seasoning from the store. You probably have all of the ingredients in the pantry anyway.</Blurb>
+   <Ingredient name = "sage" quantity = "2" unit = "tsp" mod = "ground" />
+   <Ingredient name = "thyme" quantity = "1.5" unit = "tsp" mod = "ground" />
+   <Ingredient name = "marjoram" quantity = "1" unit = "tsp" mod = "ground" />
+   <Ingredient name = "rosemary" quantity = "0.75" unit = "tsp" mod = "ground" />
+   <Ingredient name = "nutmeg" quantity = "0.5" unit = "tsp" />
+   <Ingredient name = "black pepper" quantity = ".05" unit = "tsp" mod = "finely ground" />
+   <Text>Mix all of the spices together. Et voila!</Text>
+ </Recipe>
+
+ <Recipe title = "Hash Brown Potato Casserole">
+   <Blurb>If you want to be thin, this is not for you. If you like yummy comfort food and don’t mind a little extra you to love, then dig in!</Blurb>
+   <Ingredient name = "hash browns" quantity = "2" unit = "lbs" mod = "frozen" />
+   <Ingredient name = "sharp cheese" quantity = "10" unit = "oz" mod = "grated" />
+   <Ingredient name = "sour cream" quantity = "16" unit = "oz" />
+   <Ingredient name = "onion" quantity = "1" unit = "ea" mod = "small, chopped" />
+   <Ingredient name = "cream of chicken soup" quantity = "1" unit = "ea" mod = "can" />
+   <Ingredient name = "butter" quantity = "8" unit = "tbsp" mod = "or margarine" />
+   <Ingredient name = "corn flakes" quantity = "2" unit = "cups" mod = "crushed" />
+
+   <Text>Mix all ingredients together except butter and corn flakes.
+
+Melt butter and mix in the crushed corn flakes. Put over top of hash brown mixture in a casserole dish and bake at 350° for 1 hour.
+
+</Text>
+ </Recipe>
+
+ <Recipe title = "Bombie’s Sweet Potato Casserole">
+   <Blurb>You may think you don’t like sweet potatoes. But, if you think that, then you’ve never had them like this.</Blurb>
+   <Ingredient name = "sweet potatoes" quantity = "3" unit = "cups" mod = "baked, then mashed" />
+   <Ingredient name = "sugar" quantity = "1" unit = "cup" />
+   <Ingredient name = "butter" quantity = "6" unit = "tbsp" mod = "divided in half"/>
+   <Ingredient name = "eggs" quantity = "2" unit = "ea" mod = "lightly beaten" />
+   <Ingredient name = "milk" quantity = "0.5" unit = "cups" />
+   <Ingredient name = "salt" quantity = "1" unit = "ea" mod = "pinch" />
+   <Ingredient name = "vanilla" quantity = "1" unit = "tsp" />
+   <Ingredient name = "all-purpose flour" quantity = "0.25" unit = "cup" />
+   <Ingredient name = "brown sugar" quantity = "1" unit = "cup" mod = "packed" />
+   <Ingredient name = "pecans" quantity = "1" unit = "cup" mod = "chopped" />
+ 
+   <Text>Mix sugar, half the butter (3 tbsp), eggs, milk, and salt. Mix in vanilla. Put into casserole. Melt together remaining 3 tbsp butter, flour, sugar, and brown sugar. Stir in pecans. Spread topping over sweet potatoes and bake at 350° fir 35 minutes or until pecan and sugar topping is lightly browned.</Text>
+ </Recipe>
+
+ <Recipe title = "Mushroom Melts">
+   <Blurb>The flavor of melted cheese and savory mushrooms, plus the satisfaction of watching your kids eat their broccoli without complaint: Could you ask for anything more at lunchtime?</Blurb>
+   <Ingredient name = "broccoli" quantity = "0.5" unit = "lb" mod = "florets" />
+   <Ingredient name = "portobello mushrooms" quantity = "1" unit = "lb" mod = "cut into ½”-thick slices" />
+   <Ingredient name = "red pepper" quantity = "1" unit = "ea" mod = "cut into ¼”-wide slices" />
+   <Ingredient name = "hearty bread" quantity = "4" unit = "ea" mod = "slices" />
+   <Ingredient name = "mayonnaise" quantity = "0.5" unit = "cups" />
+   <Ingredient name = "garlic" quantity = "2" unit = "ea" mod = "cloves, minced" />
+   <Ingredient name = "crushed red pepper flakes" quantity = "0.5" unit = "tsp" mod = "or to taste" />
+   <Ingredient name = "black pepper" quantity = "0.25" unit = "tsp" />
+   <Ingredient name = "gouda cheese" quantity = "4" unit = "oz" mod = "sliced ⅛” thick" />
+   <Text>Turn the oven on to broil. Line a metal (NEVER glass!) pan with foil and spray with non-stick cooking spray. Put broccoli in pan and put under broiler until florets start to slightly brown, about 5-8 minutes. Remove pan and add red pepper slices. Give a quick spritz with cooking spray and place back under broiler until red pepper starts to brown, about another 5-8 minutes. Remove pan and repeat previous steps with mushrooms. When mushrooms look soft, remove from broiler and cool until able to be handled.
+
+Meanwhile, in a bowl mix together mayonnaise, garlic, crushed red pepper flakes, and black pepper. Spread this mixture evenly onto bread slices, set aside.
+
+Once vegetables are done cooking and have cooled, place on top of mayonnaise mixture starting with mushrooms, then red peppers, and last broccoli. Put cheese on top of broccoli florets and once again put melts under the broiler until the cheese is melty and just starting to brown.
+
+Enjoy!  </Text>
+ </Recipe>
 </RecipeDB>

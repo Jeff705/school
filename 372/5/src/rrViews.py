@@ -1,6 +1,3 @@
-#TODO: bind controller constructor to checkbox, search button
-#TODO: use controller to assign any button functions that require updated values
-
 import Tkinter as tk
 import rrModel
 import ScrolledText as ST
@@ -38,7 +35,7 @@ class rrMainWindow(tk.Toplevel):
 
         self.textLabelFrame.pack(side = tk.TOP, fill = tk.X)
 
-        self.recipeText = ST.ScrolledText(self.textFrame)
+        self.recipeText = ST.ScrolledText(self.textFrame, wrap = tk.WORD)
         self.recipeText.pack(padx = 5, pady = 5)
 
         self.listLabel = tk.Label(self.recipeLabelFrame, text = 'Recipes')
@@ -123,8 +120,7 @@ class Dialog(tk.Toplevel):
 
         self.protocol("WM_DELETE_WINDOW", self.cancel)
 
-        self.geometry("+%d+%d" % (parent.winfo_rootx()+50,
-                                  parent.winfo_rooty()+50))
+        self.geometry("+%d+%d" % (parent.winfo_rootx()+50, parent.winfo_rooty()+50))
 
         self.initial_focus.focus_set()
 
@@ -202,6 +198,7 @@ class rrIngDialog(Dialog):
         cmdFrame = tk.Frame(master)
         labelFrame = tk.Frame(master)
 
+
         self.allIng = tk.Listbox(allFrame)
         allBar = tk.Scrollbar(allFrame)
         self.allIng.config(yscrollcommand = allBar.set)
@@ -228,8 +225,8 @@ class rrIngDialog(Dialog):
         allFrame.pack(side = tk.LEFT)
         onHandFrame.pack(side = tk.RIGHT)
         addremButtonFrame.pack()
-        spacerFrame.pack()
         cmdFrame.pack(side = tk.BOTTOM)
+        spacerFrame.pack(fill = tk.Y)
         self.allIng.pack(side = tk.LEFT)
         allBar.pack(side = tk.RIGHT, fill = tk.Y)
         self.onHandIng.pack(side = tk.LEFT)

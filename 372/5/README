@@ -1,0 +1,45 @@
+Name: Chris Ragan
+Email: cragan@clemson.edu
+Date: 7/30/2014
+
+Proj No: 7, Final Deliverable 
+
+Description:
+
+A functional prototype of Recipe Roundup.
+
+Implemented functionality:
+
+1. A basic framework for the recipe database (subject to revision)
+
+2. A query algorithm to return a list of recipes that can be made with entered ingredients
+
+3. A method of selecting ingredients from a list of all ingredients. The list of all ingredients is generated from the recipe DB itself.
+
+4. Multiple-mode recipe browsing. A checkbox allows the user to browse all recipes in the database regardless of onhand ingredients.
+
+5. Persistence! The onhand list will be imported at load and exported when the program is exited normally. There is also an option to save changes without exiting.
+
+Not yet working:
+
+1. A reasonable method for recipe entry. The current DB was built by hand.
+
+2. The "About" dialog. Wasn't a priority.
+
+3. The search entry below the recipe list.
+
+Features to implement in the future (in no particular order):
+
+1. Onhand dialog resizing: The current dialog is dinky and a bit clumsy to navigate; this will only get worse as the list of ingredients grows.
+
+1a. Maybe a search function for this dialog as well - speed up the process of ingredient selection?
+
+2. A new query algorithm: Return the full DB, sorted by the % of ingredients matched. Also modify the recipe display so that the required ingredients (i.e. ones the user doesn't have) are highlighted in some way.
+
+3. A print function?: Wouldn't it be nice to print a recipe so you can take it to the kitchen? I think so. Alternatively, email to a user-defined address so they can pull it up on their smartphone/tablet in the kitchen.
+
+4. Shopping list generation: An extension of #2, the user could select a few recipes they'd like to make for the week, and any ingredients they don't have could show up in a (printable?!) list
+
+5. Caloric info: If I can get average caloric values for each ingredient, I should be able to get the total calories in a meal. Divide that by serving size, and you've got basic caloric info! Maybe go further with protein/fat/carb content... but let's be real, that's going to be a ton of work without automating the process somehow.
+
+6. Recipe scaling: A recipe for 4 pancakes, but you're feeding a family of 8? Toss in a multiplier and have the program do the math for you!
