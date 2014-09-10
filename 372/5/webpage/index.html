@@ -1,0 +1,52 @@
+<html>
+  <head>
+    <meta content="text/html; charset=windows-1252" http-equiv="content-type">
+    <title>Recipe Roundup</title>
+  </head>
+  <body style=" background-color: #009124;">
+    <table style="width: 1098px;" bgcolor="#009124" border="3">
+      <tbody>
+        <tr>
+          <td align="left" width="320">
+            <h1 align="center">Recipe Roundup</h1>
+            <p style="background-color: #009124;"> This application was
+              developed for people who love to cook, but hate deciding on what
+              to eat! By allowing the user to select a list of ingredients they
+              already have in their house, the program helps the user ensure
+              that no ingredients are wasted, and perhaps introduces them to
+              recipes they've never tried before!</p>
+          </td>
+          <td align="center" width="320">
+            <h3>A Project Developed in CpSc 3720</h3>
+            <h4>Summer, 2014</h4>
+            <h5>by Chris Ragan</h5>
+            <img style="width: 200px; height: 200px;" title="mugshot" alt="" src="images/cragan.jpg">
+          </td>
+          <td style="height: 348.65px;" align="center">
+            <p> <video controls="controls" poster="video/roundup.png" width="425">
+                <source src="video/roundup.mp4" type="video/mp4"> </video> </p>
+          </td>
+        </tr>
+        <tr>
+          <td align="center"> <img title="screenshot" alt="whoops! didn't load!"
+              src="images/smallscreen.png"></td>
+          <td align="center" width="320">
+            <h3>About the Project</h3>
+            <p> This project is implemented in Python, using the Tkinter GUI
+              framework. The interface is simple and as intuitive as possible,
+              with the ingredient selection menu mimicking what might be found
+              in a Windows dialog.</p>
+            <p> The program exploits the Model-View-Controller design
+              architecture to compartmentalize functionality and allow more
+              rigorous testing. Loading and saving retentive data uses a
+              Singleton called DataRepo. The recipe and ingredient information
+              is stored in XML format; cElementTree is used to save and load
+              these files.</p>
+          </td>
+          <td align="center"> <img title="mvc with singleton" alt="" src="images/mvc.png">
+          </td>
+        </tr>
+      </tbody>
+    </table>
+  </body>
+</html>
