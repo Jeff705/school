@@ -14,13 +14,13 @@ int main(int argc, char** argv, char **envp) {
 	{
 		char *newargv[3];
 		
-		newargv[0] = "cat";
+		newargv[0] = "ls";
 		newargv[1] = argv[1];
 		newargv[2] = NULL;
 
 		char * const pre[] = {"LD_PRELOAD=./testshim.so"};
-		printf("about to execute 'cat' with environment variable %s\n\n",*pre);
-		execve("/bin/cat", newargv, pre);
+		printf("about to execute 'ls' with environment variable %s\n\n",*pre);
+		execve("/bin/ls", newargv, pre);
 	}
 
 	else
