@@ -1,0 +1,21 @@
+Chris Ragan
+Dr. Sorber
+CPSC 3220
+9/12/14
+
+Project 1: Leak counter and System Call tracer
+
+Known problems: sctracer doesn't work. I don't know why, and I've run out
+of time/patience with debugging it. It gets caught in a loop while tokenizing
+the program/argument string, and I'm sure it has something to do with a lack
+of understanding of C pointers/string handling/etc.
+
+Design: I originally wanted to pipe communication between the parent and child
+process, but discovered it was much easier to dump a list of leaks via the
+library destructor. Beyond that, the design wasn't complicated or difficult
+for leakcount. Most of my time was spend learning how to make the appropriate
+calls and relearning variable scopes.
+
+Also, I wanted to use the macros in /sys/queue.h, but found that my own linked
+list implementation was more reliable (I'm probably doing it wrong).
+
