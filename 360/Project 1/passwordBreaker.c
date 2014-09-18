@@ -6,6 +6,7 @@
 #include <unistd.h>
 #include <signal.h>
 #include <time.h>
+#include <fcntl.h>
 
 #define RECBUFSIZE 32
 #define TIMEOUT_SEC 1
@@ -17,6 +18,7 @@ struct timespec begin, end;
 
 volatile int timeout_status = 0;
 volatile int timeout_counter = 0;
+int sockDescriptor;
 
 //shamelessly stole function name from TCPEchoClient.c, because this name is awesome.
 void DieWithError(char *errMessage);
@@ -31,19 +33,17 @@ int checkForSuccess(char *msg);
 
 
 int main(int argc, char *argv[]) {
-
 	
-	int *passIndices;
+//	int passIndices[];
 	int solution_found = 0;
 	int i;
 	char alphabet[62];
-	int sockDescriptor;
 	struct sockaddr_in servAddress;
 	struct sockaddr_in returnAddress;
 	unsigned short servPort;
 	unsigned int fromSize;
 	char *servIP;
-	char *passAttempt;
+//	char *passAttempt;
 	char replyBuffer[RECBUFSIZE];
 	int passSize;
 	int recvLen;
@@ -52,7 +52,7 @@ int main(int argc, char *argv[]) {
 
 	signal(SIGALRM, timeout_handler);
 	signal(SIGINT, exit_with_time);
-
+	printf("is it here?[55]\n");
 	if(argc != 4) {
 		DieWithError("Usage: passwordCracker <serverIP> <serverPort> <passwordSize>");
 	}
@@ -65,11 +65,11 @@ int main(int argc, char *argv[]) {
 
 	servIP = argv[1];
 	servPort = atoi(argv[2]);
-
+	printf("perhaps here?[68]\n");
 	if((sockDescriptor = socket(PF_INET, SOCK_DGRAM, IPPROTO_UDP)) < 0) {
 		DieWithError("socket() failed to create a socket!");
 	}
-
+	printf("what about here?[72]\n");
 	memset(&servAddress, 0, sizeof(servAddress));
 	servAddress.sin_family		= AF_INET;
 	servAddress.sin_addr.s_addr = inet_addr(servIP);
@@ -78,6 +78,7 @@ int main(int argc, char *argv[]) {
 /*INITIALIZE ALPHABET (because doing it by hand is annoying)
  *This will initialize an alphabet of 0-9, a-z, and A-Z
  */
+
 	for(i = 0; i < 62; i++) {
 		if((i + 48 < 58)){
 			alphabet[i] = (i + 48);
@@ -89,8 +90,11 @@ int main(int argc, char *argv[]) {
 
 		else alphabet[i] = i + 61;
 	}
-	passIndices = malloc(sizeof(int)*passSize);
-	passAttempt = malloc(passSize + 1);
+	
+	int passIndices[passSize];
+	char passAttempt[passSize + 1];
+/*	passIndices = malloc(sizeof(int)*passSize);
+	passAttempt = malloc(passSize + 1); */
 
 /* INITIALIZE PASSWORD INDICES
  *
@@ -103,31 +107,28 @@ int main(int argc, char *argv[]) {
 	for(i = 0; i < passSize; i++) {
 		*(passIndices + i) = 0;
 	}
-
 	while(timeout_counter < MAX_TIMEOUTS)
 	{
-		printf("i'm in the main while loop!");
 		alarm(TIMEOUT_SEC);
 		timeout_status = 0;
-
 		while(!timeout_status && solution_found != 1) {
-			printf("i'm in the sub-while loop!");
+			i = fcntl(sockDescriptor, F_GETFL);
+			fcntl(sockDescriptor, F_SETFL, i & ~O_NONBLOCK);
 			for(i = 0; i < passSize; i++) { //build string to send
 				*(passAttempt + i) = alphabet[passIndices[i]];
 			}
 			*(passAttempt + i) = '\0'; //terminate string
-
 			if(sendto(sockDescriptor, passAttempt, passSize, 0, (struct sockaddr *) &servAddress, sizeof(servAddress)) != passSize) 
 			{
 				DieWithError("sendto() sent an unexpected number of bytes!");
 			}
-
 			fromSize = sizeof(returnAddress);
 			
 			if((recvLen = recvfrom(sockDescriptor, replyBuffer, RECBUFSIZE, 0,
 					(struct sockaddr*) &returnAddress, &fromSize)) > 0)
 			{
 				solution_found = checkForSuccess(replyBuffer);
+				attempt_counts++;
 			}
 			if(solution_found < 0) {
 				printf("Received %s from server, unexpected\n", replyBuffer);
@@ -136,7 +137,6 @@ int main(int argc, char *argv[]) {
 			
 		}
 		if(solution_found) {
-			printf("Found a solution!\n");
 			exit_with_time(0);
 		}
 	}
@@ -149,12 +149,14 @@ int main(int argc, char *argv[]) {
 
 void DieWithError(char *errMessage) {
 	perror(errMessage);
-	exit(1);
+	exit_with_time(0);
 }
 
 void timeout_handler(int signum) {
+	printf("timeout detected\n");
 	timeout_status = 1;
 	timeout_counter++;
+	fcntl(sockDescriptor, F_SETFL, O_NONBLOCK);
 }
 
 void exit_with_time(int signum) {
