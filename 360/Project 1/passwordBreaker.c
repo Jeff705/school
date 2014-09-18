@@ -31,6 +31,8 @@ void exit_with_time(int signum);
 
 int checkForSuccess(char *msg);
 
+void incrementPassword(char *password, int size);
+
 
 int main(int argc, char *argv[]) {
 	
@@ -195,4 +197,8 @@ int checkForSuccess(char *msg) {
 
 int getIndexOf(char *source, char *token) {
 	return((int)(strchr(source, *token) - source));
+}
+
+void incrementPassword(char *password, int size) {
+	
 }
