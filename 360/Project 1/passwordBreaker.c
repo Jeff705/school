@@ -1,17 +1,23 @@
-#include <stdio.h>
-#include <stdlib.h>
-#include <arpa/inet.h>
-#include <sys/socket.h>
-#include <string.h>
-#include <unistd.h>
-#include <signal.h>
-#include <time.h>
-#include <fcntl.h>
+/*
+ * Chris Ragan
+ * Dr. Remy
+ * CPSC 3600
+ * Project 1: passwordBreaker.c
+ *
+ * Included functions:
+ * 		main()
+ *		timeout_handler()
+ *		exit_with_time()
+ *		checkForSuccess()
+ *		incrementPassword()
+ *		
+ */
 
-#define RECBUFSIZE 32
-#define TIMEOUT_SEC 1
-#define RECV_INTERVAL_MS 20
-#define MAX_TIMEOUTS 5
+#include "includes.h"
+
+#define RECBUFSIZE 32 //receive buffer size
+#define TIMEOUT_SEC 1 //how long in seconds to wait before timing out
+#define MAX_TIMEOUTS 5 //number of timeouts allowed before forced exit
 
 int attempt_counts;
 struct timespec begin, end;
@@ -20,10 +26,7 @@ volatile int timeout_status = 0;
 volatile int timeout_counter = 0;
 int sockDescriptor;
 
-//shamelessly stole function name from TCPEchoClient.c, because this name is awesome.
 void DieWithError(char *errMessage);
-
-int getIndexOf(char *source, char *token);
 
 void timeout_handler(int signum);
 
@@ -31,12 +34,19 @@ void exit_with_time(int signum);
 
 int checkForSuccess(char *msg);
 
-void incrementPassword(char *password, int size);
+void incrementPassword(int *password, int size);
 
+void initializeAlphabet(char alphabet[]);
+
+/*
+ * The main loop. Initializes variables, sets up a UDP socket, and starts
+ * slinging passwords of a defined size at the server/port (all argument values)
+ * Will time out if no response; upon CTRL+C exit or timeout will display number
+ * of attempts as well as the total time elapsed.
+ */
 
 int main(int argc, char *argv[]) {
 	
-//	int passIndices[];
 	int solution_found = 0;
 	int i;
 	char alphabet[62];
@@ -45,16 +55,15 @@ int main(int argc, char *argv[]) {
 	unsigned short servPort;
 	unsigned int fromSize;
 	char *servIP;
-//	char *passAttempt;
 	char replyBuffer[RECBUFSIZE];
 	int passSize;
 	int recvLen;
 
-	clock_gettime(CLOCK_REALTIME, &begin);
+	clock_gettime(CLOCK_REALTIME, &begin); //get the time when we start
 
-	signal(SIGALRM, timeout_handler);
-	signal(SIGINT, exit_with_time);
-	printf("is it here?[55]\n");
+	signal(SIGALRM, timeout_handler); //bind timeout_handler() to SIGALRM
+	signal(SIGINT, exit_with_time);   //bind exit_with_time() to SIGINT
+
 	if(argc != 4) {
 		DieWithError("Usage: passwordCracker <serverIP> <serverPort> <passwordSize>");
 	}
@@ -67,59 +76,47 @@ int main(int argc, char *argv[]) {
 
 	servIP = argv[1];
 	servPort = atoi(argv[2]);
-	printf("perhaps here?[68]\n");
+
 	if((sockDescriptor = socket(PF_INET, SOCK_DGRAM, IPPROTO_UDP)) < 0) {
 		DieWithError("socket() failed to create a socket!");
 	}
-	printf("what about here?[72]\n");
+
 	memset(&servAddress, 0, sizeof(servAddress));
 	servAddress.sin_family		= AF_INET;
 	servAddress.sin_addr.s_addr = inet_addr(servIP);
 	servAddress.sin_port		= htons(servPort);
 
-/*INITIALIZE ALPHABET (because doing it by hand is annoying)
- *This will initialize an alphabet of 0-9, a-z, and A-Z
- */
-
-	for(i = 0; i < 62; i++) {
-		if((i + 48 < 58)){
-			alphabet[i] = (i + 48);
-		}
-
-		else if((i + 55) < 91) {
-			alphabet[i] = (i + 55);
-		}
-
-		else alphabet[i] = i + 61;
-	}
-	
 	int passIndices[passSize];
 	char passAttempt[passSize + 1];
-/*	passIndices = malloc(sizeof(int)*passSize);
-	passAttempt = malloc(passSize + 1); */
+	initializeAlphabet(alphabet);
 
-/* INITIALIZE PASSWORD INDICES
- *
- * passIndices is an array of integers which will be used to access members of
- * the alphabet[] array. This is the easiest representation I could think of to
- * make a password wrap around once we'd hit the max value (Z{n} where n is max
- * password length)
- *
- */
 	for(i = 0; i < passSize; i++) {
 		*(passIndices + i) = 0;
 	}
+
 	while(timeout_counter < MAX_TIMEOUTS)
 	{
-		alarm(TIMEOUT_SEC);
 		timeout_status = 0;
+
 		while(!timeout_status && solution_found != 1) {
+		/*
+		 * see timeout_handler() implementation below
+		 */			
+		alarm(TIMEOUT_SEC);
+
 			i = fcntl(sockDescriptor, F_GETFL);
+			
+			/* We reset the O_NONBLOCK flag here to keep from having a silly
+			 * amount of calls to recvfrom() in the event of a timeout...
+			 */
+
 			fcntl(sockDescriptor, F_SETFL, i & ~O_NONBLOCK);
-			for(i = 0; i < passSize; i++) { //build string to send
+			incrementPassword(passIndices, passSize);
+			for(i = 0; i < passSize; i++) { //build string from alphabet to send
 				*(passAttempt + i) = alphabet[passIndices[i]];
 			}
 			*(passAttempt + i) = '\0'; //terminate string
+
 			if(sendto(sockDescriptor, passAttempt, passSize, 0, (struct sockaddr *) &servAddress, sizeof(servAddress)) != passSize) 
 			{
 				DieWithError("sendto() sent an unexpected number of bytes!");
@@ -139,28 +136,40 @@ int main(int argc, char *argv[]) {
 			
 		}
 		if(solution_found) {
+			printf("Success! Password is %s\n", passAttempt);
 			exit_with_time(0);
 		}
 	}
 	if(timeout_counter >= MAX_TIMEOUTS) {
-		DieWithError("Exceeded MAX_TIMEOUTS, exiting...");
+		printf("Exceeded MAX_TIMEOUTS, exiting...");
+		exit_with_time(0);
 	}
-
+	//we'll never get here, but -Wall cleanliness is next to godliness!
 	return(1);
 }
 
-void DieWithError(char *errMessage) {
-	perror(errMessage);
-	exit_with_time(0);
-}
-
+/*
+ * If no reply received within the timeout threshold, SIGALRM will be set.
+ * This function just lets the user know what's going on, breaks the recvfrom()
+ * function out of blocking, and sets a couple of status variables
+ *
+ */
 void timeout_handler(int signum) {
-	printf("timeout detected\n");
+	printf("Attempt timed out, will attempt again...\n");
 	timeout_status = 1;
 	timeout_counter++;
+	/* I found this necessary to keep the client rolling in case of a receive
+	 * timeout... this stops recvfrom() blocking so the main loop can attempt
+	 * another password.
+	 */
 	fcntl(sockDescriptor, F_SETFL, O_NONBLOCK);
 }
 
+/*
+ * Calculates time elapsed from the beginning of the program, prints it in a
+ * readable format, and exits.
+ *
+ */
 void exit_with_time(int signum) {
 	clock_gettime(CLOCK_REALTIME, &end);
 	//this should be total time in usec
@@ -182,6 +191,12 @@ void exit_with_time(int signum) {
 	exit(0);
 }
 
+/*
+ * Just checks the server reply for SUCCESS or FAILURE, returning 1 or 0
+ * respectively (or -1 if something else is received)
+ *
+ */
+
 int checkForSuccess(char *msg) {
 	int status;
 	if(strcmp(msg, "SUCCESS") == 0) {
@@ -195,10 +210,24 @@ int checkForSuccess(char *msg) {
 	return status;
 }
 
-int getIndexOf(char *source, char *token) {
-	return((int)(strchr(source, *token) - source));
-}
-
-void incrementPassword(char *password, int size) {
-	
+/*
+ * The 'password' in this case is actually an array of ints, since the alphabet
+ * is an array of allowable characters indexed by these values. So it's
+ * effectively a base 62 counter with rollover, the width of which is determined
+ * by 'size'. 
+ */
+void incrementPassword(int *password, int size) {
+	*(password + size - 1) += 1;
+	if(*(password + size - 1) >= 62) //check to see if we've rolled over this digit
+	{
+		*(password + size - 1) = 0;
+		if(size == 1) //are we at the base case (most significant digit)?
+		{
+			return;
+		}
+		else {  //if not, we need to increment the next most significant digit
+			incrementPassword(password, size - 1);
+		}
+	}
+	//if the current digit didn't roll over, we're all done!
 }
