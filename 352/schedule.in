@@ -1,49 +1,54 @@
-TIME ([1-9]|[1][0-9]|[2][0-3])
+%{
+
+#include "schedule.tab.h"
+
+%}
+
+%option nounput
+%option noinput
+
+NUM [0-9]+
 
 DAY m|tu|w|th|f
-
-SECTION [1-9]{1}
 
 COURSE "ece"[0-9]{4}
 
 STUDENT [a-z]+
 
-UNAVAILABLE_LIST \[((\[{DAY},{TIME},{TIME}\])?,?)*\]
+LBRACKET "["
 
-COURSE_LIST \[{COURSE},{SECTION},{DAY},{TIME},{TIME}\]
+RBRACKET "]"
 
-NEEDS_LIST \[({COURSE_LIST},?)+\]
-
-COURSE_CAPABILITIES_LIST \[({COURSE},?)+\]
-
-RESOURCES_ENTRY \[{STUDENT},{COURSE_CAPABILITIES_LIST},{UNAVAILABLE_LIST}\]
-
-RESOURCES_LIST \[({RESOURCES_ENTRY},?)+\]
+COMMA ","
 
 %%
 
-[ \t\n] /*eat a newline*/
+{DAY} {printf("%s is a valid day\n", yytext);
+	return DAY;
+}
 
-{DAY} {printf("%s is a valid day\n", yytext);}
+{NUM} {printf("%s is a valid NUM\n", yytext);
+	return NUM;
+}
 
-{TIME} {printf("%s is a valid time\n", yytext);}
+{COURSE} {printf("%s is a valid course identifier\n", yytext);
+	return COURSE;
+}
 
-{SECTION} {printf("%s is a valid section number \n", yytext);}
+{STUDENT} {printf("%s is a valid student name\n", yytext);
+	return STUDENT;
+}
 
-{COURSE} {printf("%s is a valid course identifier\n", yytext);}
+{LBRACKET} {
+	return LBRACKET;
+}
 
-{STUDENT} {printf("%s is a valid student name\n", yytext);}
+{RBRACKET} {
+	return RBRACKET;
+}
 
-{UNAVAILABLE_LIST} {printf("%s is a valid unavailable list\n", yytext);}
-
-{COURSE_LIST} {printf("%s is a valid course listing\n", yytext);}
-
-{NEEDS_LIST} {printf("%s is a valid needs listing\n", yytext);}
-
-{COURSE_CAPABILITIES_LIST} {printf("%s is a valid course capability listing\n", yytext);}
-
-{RESOURCES_ENTRY} {printf("%s is a valid resources entry\n", yytext);}
-
-{RESOURCES_LIST} {printf("%s is a valid resources list\n", yytext);}
+{COMMA} {
+	return COMMA;
+}
 
 .	{printf("I don't know what %s is...\n", yytext);}

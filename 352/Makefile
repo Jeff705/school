@@ -15,7 +15,7 @@ scanner: lex.yy.c
 	$(CC) -o scanner lex.yy.c $(CFLAGS)
 
 clean:
-	rm scanner
+	rm scanner lex.yy.c
 
 test:
 	./scanner < $(TESTFILE)

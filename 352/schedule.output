@@ -1,0 +1,546 @@
+Grammar
+
+    0 $accept: production $end
+
+    1 production: needs_list
+    2           | unavailable_list
+    3           | course_capabilities_list
+    4           | resources_list
+    5           | resources_entry
+
+    6 needs_list: LBRACKET course_list RBRACKET
+
+    7 course_list: single_course
+    8            | single_course COMMA course_list
+
+    9 single_course: LBRACKET COURSE COMMA NUM COMMA DAY COMMA NUM COMMA NUM RBRACKET
+
+   10 unavailable_list: LBRACKET unavail_items RBRACKET
+
+   11 unavail_items: ""
+   12              | unavail
+   13              | unavail COMMA unavail_items
+
+   14 unavail: LBRACKET DAY COMMA NUM COMMA NUM RBRACKET
+
+   15 course_capabilities_list: LBRACKET courses RBRACKET
+
+   16 courses: COURSE
+   17        | COURSE COMMA courses
+
+   18 resources_entry: LBRACKET STUDENT COMMA course_capabilities_list COMMA unavailable_list RBRACKET
+
+   19 multi_resources: resources_entry
+   20                | resources_entry COMMA multi_resources
+
+   21 resources_list: LBRACKET multi_resources RBRACKET
+
+
+Terminals, with rules where they appear
+
+$end (0) 0
+error (256)
+DAY (258) 9 14
+STUDENT (259) 18
+NUM (260) 9 14
+COURSE (261) 9 16 17
+LBRACKET (262) 6 9 10 14 15 18 21
+RBRACKET (263) 6 9 10 14 15 18 21
+COMMA (264) 8 9 13 14 17 18 20
+"" (265) 11
+
+
+Nonterminals, with rules where they appear
+
+$accept (11)
+    on left: 0
+production (12)
+    on left: 1 2 3 4 5, on right: 0
+needs_list (13)
+    on left: 6, on right: 1
+course_list (14)
+    on left: 7 8, on right: 6 8
+single_course (15)
+    on left: 9, on right: 7 8
+unavailable_list (16)
+    on left: 10, on right: 2 18
+unavail_items (17)
+    on left: 11 12 13, on right: 10 13
+unavail (18)
+    on left: 14, on right: 12 13
+course_capabilities_list (19)
+    on left: 15, on right: 3 18
+courses (20)
+    on left: 16 17, on right: 15 17
+resources_entry (21)
+    on left: 18, on right: 5 19 20
+multi_resources (22)
+    on left: 19 20, on right: 20 21
+resources_list (23)
+    on left: 21, on right: 4
+
+
+state 0
+
+    0 $accept: . production $end
+
+    LBRACKET  shift, and go to state 1
+
+    production                go to state 2
+    needs_list                go to state 3
+    unavailable_list          go to state 4
+    course_capabilities_list  go to state 5
+    resources_entry           go to state 6
+    resources_list            go to state 7
+
+
+state 1
+
+    6 needs_list: LBRACKET . course_list RBRACKET
+   10 unavailable_list: LBRACKET . unavail_items RBRACKET
+   15 course_capabilities_list: LBRACKET . courses RBRACKET
+   18 resources_entry: LBRACKET . STUDENT COMMA course_capabilities_list COMMA unavailable_list RBRACKET
+   21 resources_list: LBRACKET . multi_resources RBRACKET
+
+    STUDENT   shift, and go to state 8
+    COURSE    shift, and go to state 9
+    LBRACKET  shift, and go to state 10
+    ""        shift, and go to state 11
+
+    course_list      go to state 12
+    single_course    go to state 13
+    unavail_items    go to state 14
+    unavail          go to state 15
+    courses          go to state 16
+    resources_entry  go to state 17
+    multi_resources  go to state 18
+
+
+state 2
+
+    0 $accept: production . $end
+
+    $end  shift, and go to state 19
+
+
+state 3
+
+    1 production: needs_list .
+
+    $default  reduce using rule 1 (production)
+
+
+state 4
+
+    2 production: unavailable_list .
+
+    $default  reduce using rule 2 (production)
+
+
+state 5
+
+    3 production: course_capabilities_list .
+
+    $default  reduce using rule 3 (production)
+
+
+state 6
+
+    5 production: resources_entry .
+
+    $default  reduce using rule 5 (production)
+
+
+state 7
+
+    4 production: resources_list .
+
+    $default  reduce using rule 4 (production)
+
+
+state 8
+
+   18 resources_entry: LBRACKET STUDENT . COMMA course_capabilities_list COMMA unavailable_list RBRACKET
+
+    COMMA  shift, and go to state 20
+
+
+state 9
+
+   16 courses: COURSE .
+   17        | COURSE . COMMA courses
+
+    COMMA  shift, and go to state 21
+
+    $default  reduce using rule 16 (courses)
+
+
+state 10
+
+    9 single_course: LBRACKET . COURSE COMMA NUM COMMA DAY COMMA NUM COMMA NUM RBRACKET
+   14 unavail: LBRACKET . DAY COMMA NUM COMMA NUM RBRACKET
+   18 resources_entry: LBRACKET . STUDENT COMMA course_capabilities_list COMMA unavailable_list RBRACKET
+
+    DAY      shift, and go to state 22
+    STUDENT  shift, and go to state 8
+    COURSE   shift, and go to state 23
+
+
+state 11
+
+   11 unavail_items: "" .
+
+    $default  reduce using rule 11 (unavail_items)
+
+
+state 12
+
+    6 needs_list: LBRACKET course_list . RBRACKET
+
+    RBRACKET  shift, and go to state 24
+
+
+state 13
+
+    7 course_list: single_course .
+    8            | single_course . COMMA course_list
+
+    COMMA  shift, and go to state 25
+
+    $default  reduce using rule 7 (course_list)
+
+
+state 14
+
+   10 unavailable_list: LBRACKET unavail_items . RBRACKET
+
+    RBRACKET  shift, and go to state 26
+
+
+state 15
+
+   12 unavail_items: unavail .
+   13              | unavail . COMMA unavail_items
+
+    COMMA  shift, and go to state 27
+
+    $default  reduce using rule 12 (unavail_items)
+
+
+state 16
+
+   15 course_capabilities_list: LBRACKET courses . RBRACKET
+
+    RBRACKET  shift, and go to state 28
+
+
+state 17
+
+   19 multi_resources: resources_entry .
+   20                | resources_entry . COMMA multi_resources
+
+    COMMA  shift, and go to state 29
+
+    $default  reduce using rule 19 (multi_resources)
+
+
+state 18
+
+   21 resources_list: LBRACKET multi_resources . RBRACKET
+
+    RBRACKET  shift, and go to state 30
+
+
+state 19
+
+    0 $accept: production $end .
+
+    $default  accept
+
+
+state 20
+
+   18 resources_entry: LBRACKET STUDENT COMMA . course_capabilities_list COMMA unavailable_list RBRACKET
+
+    LBRACKET  shift, and go to state 31
+
+    course_capabilities_list  go to state 32
+
+
+state 21
+
+   17 courses: COURSE COMMA . courses
+
+    COURSE  shift, and go to state 9
+
+    courses  go to state 33
+
+
+state 22
+
+   14 unavail: LBRACKET DAY . COMMA NUM COMMA NUM RBRACKET
+
+    COMMA  shift, and go to state 34
+
+
+state 23
+
+    9 single_course: LBRACKET COURSE . COMMA NUM COMMA DAY COMMA NUM COMMA NUM RBRACKET
+
+    COMMA  shift, and go to state 35
+
+
+state 24
+
+    6 needs_list: LBRACKET course_list RBRACKET .
+
+    $default  reduce using rule 6 (needs_list)
+
+
+state 25
+
+    8 course_list: single_course COMMA . course_list
+
+    LBRACKET  shift, and go to state 36
+
+    course_list    go to state 37
+    single_course  go to state 13
+
+
+state 26
+
+   10 unavailable_list: LBRACKET unavail_items RBRACKET .
+
+    $default  reduce using rule 10 (unavailable_list)
+
+
+state 27
+
+   13 unavail_items: unavail COMMA . unavail_items
+
+    LBRACKET  shift, and go to state 38
+    ""        shift, and go to state 11
+
+    unavail_items  go to state 39
+    unavail        go to state 15
+
+
+state 28
+
+   15 course_capabilities_list: LBRACKET courses RBRACKET .
+
+    $default  reduce using rule 15 (course_capabilities_list)
+
+
+state 29
+
+   20 multi_resources: resources_entry COMMA . multi_resources
+
+    LBRACKET  shift, and go to state 40
+
+    resources_entry  go to state 17
+    multi_resources  go to state 41
+
+
+state 30
+
+   21 resources_list: LBRACKET multi_resources RBRACKET .
+
+    $default  reduce using rule 21 (resources_list)
+
+
+state 31
+
+   15 course_capabilities_list: LBRACKET . courses RBRACKET
+
+    COURSE  shift, and go to state 9
+
+    courses  go to state 16
+
+
+state 32
+
+   18 resources_entry: LBRACKET STUDENT COMMA course_capabilities_list . COMMA unavailable_list RBRACKET
+
+    COMMA  shift, and go to state 42
+
+
+state 33
+
+   17 courses: COURSE COMMA courses .
+
+    $default  reduce using rule 17 (courses)
+
+
+state 34
+
+   14 unavail: LBRACKET DAY COMMA . NUM COMMA NUM RBRACKET
+
+    NUM  shift, and go to state 43
+
+
+state 35
+
+    9 single_course: LBRACKET COURSE COMMA . NUM COMMA DAY COMMA NUM COMMA NUM RBRACKET
+
+    NUM  shift, and go to state 44
+
+
+state 36
+
+    9 single_course: LBRACKET . COURSE COMMA NUM COMMA DAY COMMA NUM COMMA NUM RBRACKET
+
+    COURSE  shift, and go to state 23
+
+
+state 37
+
+    8 course_list: single_course COMMA course_list .
+
+    $default  reduce using rule 8 (course_list)
+
+
+state 38
+
+   14 unavail: LBRACKET . DAY COMMA NUM COMMA NUM RBRACKET
+
+    DAY  shift, and go to state 22
+
+
+state 39
+
+   13 unavail_items: unavail COMMA unavail_items .
+
+    $default  reduce using rule 13 (unavail_items)
+
+
+state 40
+
+   18 resources_entry: LBRACKET . STUDENT COMMA course_capabilities_list COMMA unavailable_list RBRACKET
+
+    STUDENT  shift, and go to state 8
+
+
+state 41
+
+   20 multi_resources: resources_entry COMMA multi_resources .
+
+    $default  reduce using rule 20 (multi_resources)
+
+
+state 42
+
+   18 resources_entry: LBRACKET STUDENT COMMA course_capabilities_list COMMA . unavailable_list RBRACKET
+
+    LBRACKET  shift, and go to state 45
+
+    unavailable_list  go to state 46
+
+
+state 43
+
+   14 unavail: LBRACKET DAY COMMA NUM . COMMA NUM RBRACKET
+
+    COMMA  shift, and go to state 47
+
+
+state 44
+
+    9 single_course: LBRACKET COURSE COMMA NUM . COMMA DAY COMMA NUM COMMA NUM RBRACKET
+
+    COMMA  shift, and go to state 48
+
+
+state 45
+
+   10 unavailable_list: LBRACKET . unavail_items RBRACKET
+
+    LBRACKET  shift, and go to state 38
+    ""        shift, and go to state 11
+
+    unavail_items  go to state 14
+    unavail        go to state 15
+
+
+state 46
+
+   18 resources_entry: LBRACKET STUDENT COMMA course_capabilities_list COMMA unavailable_list . RBRACKET
+
+    RBRACKET  shift, and go to state 49
+
+
+state 47
+
+   14 unavail: LBRACKET DAY COMMA NUM COMMA . NUM RBRACKET
+
+    NUM  shift, and go to state 50
+
+
+state 48
+
+    9 single_course: LBRACKET COURSE COMMA NUM COMMA . DAY COMMA NUM COMMA NUM RBRACKET
+
+    DAY  shift, and go to state 51
+
+
+state 49
+
+   18 resources_entry: LBRACKET STUDENT COMMA course_capabilities_list COMMA unavailable_list RBRACKET .
+
+    $default  reduce using rule 18 (resources_entry)
+
+
+state 50
+
+   14 unavail: LBRACKET DAY COMMA NUM COMMA NUM . RBRACKET
+
+    RBRACKET  shift, and go to state 52
+
+
+state 51
+
+    9 single_course: LBRACKET COURSE COMMA NUM COMMA DAY . COMMA NUM COMMA NUM RBRACKET
+
+    COMMA  shift, and go to state 53
+
+
+state 52
+
+   14 unavail: LBRACKET DAY COMMA NUM COMMA NUM RBRACKET .
+
+    $default  reduce using rule 14 (unavail)
+
+
+state 53
+
+    9 single_course: LBRACKET COURSE COMMA NUM COMMA DAY COMMA . NUM COMMA NUM RBRACKET
+
+    NUM  shift, and go to state 54
+
+
+state 54
+
+    9 single_course: LBRACKET COURSE COMMA NUM COMMA DAY COMMA NUM . COMMA NUM RBRACKET
+
+    COMMA  shift, and go to state 55
+
+
+state 55
+
+    9 single_course: LBRACKET COURSE COMMA NUM COMMA DAY COMMA NUM COMMA . NUM RBRACKET
+
+    NUM  shift, and go to state 56
+
+
+state 56
+
+    9 single_course: LBRACKET COURSE COMMA NUM COMMA DAY COMMA NUM COMMA NUM . RBRACKET
+
+    RBRACKET  shift, and go to state 57
+
+
+state 57
+
+    9 single_course: LBRACKET COURSE COMMA NUM COMMA DAY COMMA NUM COMMA NUM RBRACKET .
+
+    $default  reduce using rule 9 (single_course)
