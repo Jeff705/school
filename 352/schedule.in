@@ -23,19 +23,23 @@ COMMA ","
 
 %%
 
-{DAY} {printf("%s is a valid day\n", yytext);
+[ \t\n] /* EAT DAT DERE WHITESPACE */
+
+{DAY} {
 	return DAY;
 }
 
-{NUM} {printf("%s is a valid NUM\n", yytext);
+{NUM} {
 	return NUM;
 }
 
-{COURSE} {printf("%s is a valid course identifier\n", yytext);
+{COURSE} {
+
 	return COURSE;
 }
 
-{STUDENT} {printf("%s is a valid student name\n", yytext);
+{STUDENT} {
+
 	return STUDENT;
 }
 

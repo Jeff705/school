@@ -1,0 +1,98 @@
+[[ece2090,4,f,9,12],
+[ece2095,4,w,9,12],
+[ece3090,1,tu,1,3]]
+found valid 'needs' list
+
+[[ece4589,4,th,10,15],
+[ece4820,4,m,1,5],
+[ece1293,2,w,9,11]]
+found valid 'needs' list
+
+[[ece2984,2,m,10,23],
+[ece2839,5,w,2,5],
+[ece3829,2,th,2,6]]
+found valid 'needs' list
+
+[[ece2090,4,f,9,12],
+[ece2095,,w,9,12],
+[ece3090,1,tu,1,3]]
+syntax error
+[[ece4589,4,th,10,15],
+[ece4820,4,m,1,5]
+[ece1293,2,w 9,11]]
+syntax error
+[[ece2984,2,m,10,23],
+[ece2839,5,w,2,5],
+[ece3829,2,,2,6]]
+syntax error
+-------------------------------------------------------------------------------
+[]
+found valid 'unavailable_list'
+
+[[th,3,5]]
+found valid 'unavailable_list'
+
+[[w,4,5],[th,7,10],[m,12,16]]
+found valid 'unavailable_list'
+
+[,]
+syntax error
+[[th,3 5]]
+syntax error
+[[w,4,5],[th,7,10][m,12,16]]
+syntax error
+-------------------------------------------------------------------------------
+[ece2808,ece4892,ece1283]
+found valid 'course_capabilities' list
+
+[ece4839,ece1834]
+found valid 'course_capabilities' list
+
+[ece4839]
+found valid 'course_capabilities' list
+
+[ece288,ece4892,ece1283]
+syntax error
+[ece4839,ee1834]
+syntax error
+[ece839]
+syntax error
+-------------------------------------------------------------------------------
+[george, [ece4892,ece8929],[[f,13,15]]]
+found valid 'resources_entry' list
+
+[jerry, [ece4829,ece1719,ece2390],[[m,5,6]]]
+found valid 'resources_entry' list
+
+[steve, [ece4892,ece4898],[]]
+found valid 'resources_entry' list
+
+[george, [ece4892,ece8929][[f,13,15]]]
+syntax error
+[jerry, [ece4829,ece1719,ece2390],[[m,,6]]]
+syntax error
+[steve, [ece4892,ece4898],[d]]
+syntax error
+-------------------------------------------------------------------------------
+[[bob, [ece2342],[[f,16,18]]],
+[barney, [ece8498,ece2781],[[tu,12,15]]]]
+found valid 'resources list'
+
+[[george, [ece4892,ece8929],[[f,13,15]]],
+[erin, [ece4892,ece8298,ece2385],[]]]
+found valid 'resources list'
+
+[[steve, [ece4892,ece4898],[]],
+[jerry, [ece4829,ece1719,ece2390],[[m,5,6]]]]
+found valid 'resources list'
+
+[[ [ece2342],[[f,16,18]]],
+[barney, [ece8498,ece2781],[[tu,12,15]]]]
+syntax error
+[[george, [ece4892,ece8929],[[f,13,15]]],
+[erin, [ece4892ece8298,ece2385],[]]]
+syntax error
+[[steve, [ece4892,ece4898],[]],
+[jerry, [ece4829,ece171,ece2390],[[m,5,6]]]]
+syntax error
+-------------------------------------------------------------------------------

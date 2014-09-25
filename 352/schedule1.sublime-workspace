@@ -1,0 +1,540 @@
+{
+	"auto_complete":
+	{
+		"selected_items":
+		[
+			[
+				"list",
+				"listing"
+			],
+			[
+				"RES",
+				"RESOURCES_LIST"
+			],
+			[
+				"COURSE",
+				"COURSE_CAPABILITIES_LIST"
+			],
+			[
+				"RE",
+				"RESOURCES_ENTRY"
+			],
+			[
+				"c",
+				"clean"
+			],
+			[
+				"pass",
+				"passAttempt"
+			],
+			[
+				"pas",
+				"passwordLength"
+			],
+			[
+				"pa",
+				"passwordLength"
+			],
+			[
+				"clie",
+				"clientAddress"
+			],
+			[
+				"cli",
+				"clientAddress"
+			],
+			[
+				"sock",
+				"socketDescriptor"
+			],
+			[
+				"clien",
+				"clientAddrLength"
+			],
+			[
+				"cl",
+				"clientAddress"
+			],
+			[
+				"re",
+				"RECV_MAX"
+			],
+			[
+				"rec",
+				"recvBuffer"
+			],
+			[
+				"die",
+				"DieWithError"
+			],
+			[
+				"lo",
+				"localAddress"
+			],
+			[
+				"generate",
+				"generatePassword"
+			],
+			[
+				"inc",
+				"incrementPassword"
+			],
+			[
+				"total_time_s",
+				"total_time_s"
+			],
+			[
+				"tv",
+				"tv_nsec"
+			],
+			[
+				"clo",
+				"CLOCKS_PER_SEC"
+			],
+			[
+				"att",
+				"attempt_counts"
+			],
+			[
+				"total",
+				"total_time"
+			],
+			[
+				"use",
+				"USEC_PER_MSEC"
+			],
+			[
+				"usec",
+				"USEC_PER_MSEC"
+			],
+			[
+				"USEC_per",
+				"USEC_PER_SEC"
+			],
+			[
+				"USEC",
+				"USEC_PER_MIN"
+			],
+			[
+				"Ma",
+				"MAX_TIMEOUTS"
+			],
+			[
+				"time",
+				"timeout_status"
+			],
+			[
+				"timeout",
+				"timeout_status"
+			],
+			[
+				"recv",
+				"RECV_INTERVAL_MS"
+			],
+			[
+				"from",
+				"fromSize"
+			],
+			[
+				"size",
+				"sizeof"
+			],
+			[
+				"ser",
+				"servAddress"
+			],
+			[
+				"arg",
+				"argv"
+			],
+			[
+				"next",
+				"next"
+			],
+			[
+				"mem",
+				"memAllocation"
+			]
+		]
+	},
+	"buffers":
+	[
+		{
+			"file": "Makefile",
+			"settings":
+			{
+				"buffer_size": 228,
+				"line_ending": "Unix"
+			}
+		},
+		{
+			"contents": "[[ece2090,4,f,9,12],\n[ece2095,4,w,9,12],\n[ece3090,1,tu,1,3]]\n\n[[ece4589,4,th,10,15],\n[ece4820,4,m,1,5],\n[ece1293,2,w 9,11]]\n\n[[ece2984,2,m,10,23],\n[ece2839,5,w,2,5],\n[ece3829,2,th,2,6]]",
+			"file": "needs",
+			"file_size": 183,
+			"file_write_time": 1411601282000000,
+			"settings":
+			{
+				"buffer_size": 185,
+				"line_ending": "Unix",
+				"name": "[[ece2090,4,f,9,12],"
+			}
+		},
+		{
+			"file": "schedule.y",
+			"settings":
+			{
+				"buffer_size": 1262,
+				"line_ending": "Unix"
+			}
+		},
+		{
+			"file": "schedule.in",
+			"settings":
+			{
+				"buffer_size": 611,
+				"line_ending": "Unix"
+			}
+		},
+		{
+			"contents": "unavailable_list\n\n[]\n\n[[th,3,5]]\n\n[[w,4,5],[th,7,10],[m,12,16]]\n\n",
+			"file": "unavailable_list",
+			"file_size": 146,
+			"file_write_time": 1411601467000000,
+			"settings":
+			{
+				"buffer_size": 65,
+				"line_ending": "Unix",
+				"name": "unavailable_list"
+			}
+		},
+		{
+			"contents": "course_capabilities_list\n• resources_entry\n• resources (resources_list)",
+			"settings":
+			{
+				"buffer_size": 71,
+				"line_ending": "Unix",
+				"name": "course_capabilities_list"
+			}
+		}
+	],
+	"build_system": "",
+	"command_palette":
+	{
+		"height": 0.0,
+		"selected_items":
+		[
+		],
+		"width": 0.0
+	},
+	"console":
+	{
+		"height": 0.0
+	},
+	"distraction_free":
+	{
+		"menu_visible": true,
+		"show_minimap": false,
+		"show_open_files": false,
+		"show_tabs": false,
+		"side_bar_visible": false,
+		"status_bar_visible": false
+	},
+	"file_history":
+	[
+		"/home/chris/Documents/school/352/lex.yy.c",
+		"/home/chris/Documents/school/352/dictionary.c",
+		"/home/chris/Documents/school/360/Project 1/Makefile",
+		"/home/chris/Documents/school/360/Project 1/passwordBreaker.c",
+		"/home/chris/Documents/school/360/Project 1/passwordServer.c",
+		"/home/chris/Documents/school/360/Project 1/README",
+		"/home/chris/Documents/school/360/Project 1/includes.c",
+		"/home/chris/Documents/school/360/Project 1/includes.h",
+		"/home/chris/Documents/school/322/Makefile",
+		"/home/chris/Documents/school/360/Project 1/example/Makefile",
+		"/home/chris/.config/sublime-text-2/Packages/Default/Default (Linux).sublime-keymap",
+		"/home/chris/.config/sublime-text-2/Packages/User/Default (Linux).sublime-keymap",
+		"/home/chris/Documents/school/322/leakcount.c",
+		"/home/chris/Documents/school/322/sctracer.c",
+		"/home/chris/Documents/school/322/memory_shim.c",
+		"/home/chris/Documents/JSORBER_CPSC3220-F14/processes/forkexec.c",
+		"/home/chris/Documents/school/322/concepttesting/working_intpipe.c",
+		"/home/chris/Documents/school/322/concepttesting/testshim.c",
+		"/home/chris/Documents/school/322/concepttesting/shimtrial.c",
+		"/home/chris/Documents/school/322/pipetest.c"
+	],
+	"find":
+	{
+		"height": 35.0
+	},
+	"find_in_files":
+	{
+		"height": 0.0,
+		"where_history":
+		[
+		]
+	},
+	"find_state":
+	{
+		"case_sensitive": true,
+		"find_history":
+		[
+			"yylex",
+			"UNAVAILABLE_LIST",
+			"UNAVAILABLE",
+			"passwordServer",
+			"getIndexOf",
+			"generatePassword",
+			"strace",
+			"stracer",
+			"leakcount",
+			"command",
+			"ctrl+d",
+			"blocking",
+			"3600",
+			"tv_nsec",
+			"Success",
+			"success",
+			"solution_found",
+			"list_head",
+			"iter"
+		],
+		"highlight": true,
+		"in_selection": false,
+		"preserve_case": false,
+		"regex": false,
+		"replace_history":
+		[
+			"current"
+		],
+		"reverse": false,
+		"show_context": true,
+		"use_buffer2": true,
+		"whole_word": false,
+		"wrap": true
+	},
+	"groups":
+	[
+		{
+			"selected": 5,
+			"sheets":
+			[
+				{
+					"buffer": 0,
+					"file": "Makefile",
+					"settings":
+					{
+						"buffer_size": 228,
+						"regions":
+						{
+						},
+						"selection":
+						[
+							[
+								112,
+								112
+							]
+						],
+						"settings":
+						{
+							"syntax": "Packages/Makefile/Makefile.tmLanguage"
+						},
+						"translation.x": 0.0,
+						"translation.y": 0.0,
+						"zoom_level": 1.0
+					},
+					"type": "text"
+				},
+				{
+					"buffer": 1,
+					"file": "needs",
+					"settings":
+					{
+						"buffer_size": 185,
+						"regions":
+						{
+						},
+						"selection":
+						[
+							[
+								125,
+								125
+							]
+						],
+						"settings":
+						{
+							"auto_name": "[[ece2090,4,f,9,12],",
+							"syntax": "Packages/Text/Plain text.tmLanguage"
+						},
+						"translation.x": 0.0,
+						"translation.y": 0.0,
+						"zoom_level": 1.0
+					},
+					"type": "text"
+				},
+				{
+					"buffer": 2,
+					"file": "schedule.y",
+					"settings":
+					{
+						"buffer_size": 1262,
+						"regions":
+						{
+						},
+						"selection":
+						[
+							[
+								136,
+								136
+							]
+						],
+						"settings":
+						{
+							"syntax": "Packages/Text/Plain text.tmLanguage"
+						},
+						"translation.x": 0.0,
+						"translation.y": 0.0,
+						"zoom_level": 1.0
+					},
+					"type": "text"
+				},
+				{
+					"buffer": 3,
+					"file": "schedule.in",
+					"settings":
+					{
+						"buffer_size": 611,
+						"regions":
+						{
+						},
+						"selection":
+						[
+							[
+								0,
+								0
+							]
+						],
+						"settings":
+						{
+							"syntax": "Packages/Text/Plain text.tmLanguage"
+						},
+						"translation.x": 0.0,
+						"translation.y": 0.0,
+						"zoom_level": 1.0
+					},
+					"type": "text"
+				},
+				{
+					"buffer": 4,
+					"file": "unavailable_list",
+					"settings":
+					{
+						"buffer_size": 65,
+						"regions":
+						{
+						},
+						"selection":
+						[
+							[
+								64,
+								64
+							]
+						],
+						"settings":
+						{
+							"auto_name": "unavailable_list",
+							"syntax": "Packages/Text/Plain text.tmLanguage"
+						},
+						"translation.x": 0.0,
+						"translation.y": 0.0,
+						"zoom_level": 1.0
+					},
+					"type": "text"
+				},
+				{
+					"buffer": 5,
+					"settings":
+					{
+						"buffer_size": 71,
+						"regions":
+						{
+						},
+						"selection":
+						[
+							[
+								0,
+								0
+							]
+						],
+						"settings":
+						{
+							"auto_name": "course_capabilities_list",
+							"syntax": "Packages/Text/Plain text.tmLanguage"
+						},
+						"translation.x": 0.0,
+						"translation.y": 0.0,
+						"zoom_level": 1.0
+					},
+					"type": "text"
+				}
+			]
+		}
+	],
+	"incremental_find":
+	{
+		"height": 0.0
+	},
+	"input":
+	{
+		"height": 0.0
+	},
+	"layout":
+	{
+		"cells":
+		[
+			[
+				0,
+				0,
+				1,
+				1
+			]
+		],
+		"cols":
+		[
+			0.0,
+			1.0
+		],
+		"rows":
+		[
+			0.0,
+			1.0
+		]
+	},
+	"menu_visible": true,
+	"replace":
+	{
+		"height": 64.0
+	},
+	"save_all_on_build": true,
+	"select_file":
+	{
+		"height": 0.0,
+		"selected_items":
+		[
+		],
+		"width": 0.0
+	},
+	"select_project":
+	{
+		"height": 0.0,
+		"selected_items":
+		[
+		],
+		"width": 0.0
+	},
+	"show_minimap": true,
+	"show_open_files": true,
+	"show_tabs": true,
+	"side_bar_visible": true,
+	"side_bar_width": 150.0,
+	"status_bar_visible": true
+}

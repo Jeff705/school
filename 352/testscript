@@ -1,0 +1,75 @@
+#!/bin/bash
+LOGFILE=./schedule.log
+rm $LOGFILE
+touch $LOGFILE
+TESTDIR=./testfiles
+
+cat $TESTDIR/needs1 >> $LOGFILE
+./schedule < $TESTDIR/needs1 >> $LOGFILE
+cat $TESTDIR/needs2 >> $LOGFILE
+./schedule < $TESTDIR/needs2 >> $LOGFILE
+cat $TESTDIR/needs3 >> $LOGFILE
+./schedule < $TESTDIR/needs3 >> $LOGFILE
+cat $TESTDIR/needs1b >> $LOGFILE
+./schedule < $TESTDIR/needs1b >> $LOGFILE
+cat $TESTDIR/needs2b >> $LOGFILE
+./schedule < $TESTDIR/needs2b >> $LOGFILE
+cat $TESTDIR/needs3b >> $LOGFILE
+./schedule < $TESTDIR/needs3b >> $LOGFILE
+cat pagebreak >> $LOGFILE
+
+cat $TESTDIR/unavailable1 >> $LOGFILE
+./schedule < $TESTDIR/unavailable1 >> $LOGFILE
+cat $TESTDIR/unavailable2 >> $LOGFILE
+./schedule < $TESTDIR/unavailable2 >> $LOGFILE
+cat $TESTDIR/unavailable3 >> $LOGFILE
+./schedule < $TESTDIR/unavailable3 >> $LOGFILE
+cat $TESTDIR/unavailable1b >> $LOGFILE
+./schedule < $TESTDIR/unavailable1b >> $LOGFILE
+cat $TESTDIR/unavailable2b >> $LOGFILE
+./schedule < $TESTDIR/unavailable2b >> $LOGFILE
+cat $TESTDIR/unavailable3b >> $LOGFILE
+./schedule < $TESTDIR/unavailable3b >> $LOGFILE
+cat pagebreak >> $LOGFILE
+
+cat $TESTDIR/course1 >> $LOGFILE
+./schedule < $TESTDIR/course1 >> $LOGFILE
+cat $TESTDIR/course2 >> $LOGFILE
+./schedule < $TESTDIR/course2 >> $LOGFILE
+cat $TESTDIR/course3 >> $LOGFILE
+./schedule < $TESTDIR/course3 >> $LOGFILE
+cat $TESTDIR/course1b >> $LOGFILE
+./schedule < $TESTDIR/course1b >> $LOGFILE
+cat $TESTDIR/course2b >> $LOGFILE
+./schedule < $TESTDIR/course2b >> $LOGFILE
+cat $TESTDIR/course3b >> $LOGFILE
+./schedule < $TESTDIR/course3b >> $LOGFILE
+cat pagebreak >> $LOGFILE
+
+cat $TESTDIR/res_entry1 >> $LOGFILE
+./schedule < $TESTDIR/res_entry1 >> $LOGFILE
+cat $TESTDIR/res_entry2 >> $LOGFILE
+./schedule < $TESTDIR/res_entry2 >> $LOGFILE
+cat $TESTDIR/res_entry3 >> $LOGFILE
+./schedule < $TESTDIR/res_entry3 >> $LOGFILE
+cat $TESTDIR/res_entry1b >> $LOGFILE
+./schedule < $TESTDIR/res_entry1b >> $LOGFILE
+cat $TESTDIR/res_entry2b >> $LOGFILE
+./schedule < $TESTDIR/res_entry2b >> $LOGFILE
+cat $TESTDIR/res_entry3b >> $LOGFILE
+./schedule < $TESTDIR/res_entry3b >> $LOGFILE
+cat pagebreak >> $LOGFILE
+
+cat $TESTDIR/res_list1 >> $LOGFILE
+./schedule < $TESTDIR/res_list1 >> $LOGFILE
+cat $TESTDIR/res_list2 >> $LOGFILE
+./schedule < $TESTDIR/res_list2 >> $LOGFILE
+cat $TESTDIR/res_list3 >> $LOGFILE
+./schedule < $TESTDIR/res_list3 >> $LOGFILE
+cat $TESTDIR/res_list1b >> $LOGFILE
+./schedule < $TESTDIR/res_list1b >> $LOGFILE
+cat $TESTDIR/res_list2b >> $LOGFILE
+./schedule < $TESTDIR/res_list2b >> $LOGFILE
+cat $TESTDIR/res_list3b >> $LOGFILE
+./schedule < $TESTDIR/res_list3b >> $LOGFILE
+cat pagebreak >> $LOGFILE

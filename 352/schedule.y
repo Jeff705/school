@@ -17,23 +17,23 @@
 %%
 
 production: needs_list {
-	printf("found valid 'needs' list\n");
+	printf("found valid 'needs' list\n\n");
 };
 
 production: unavailable_list {
-	printf("found valid 'unavailable_list'\n");
+	printf("found valid 'unavailable_list'\n\n");
 };
 
 production: course_capabilities_list {
-	printf("found valid 'course_capabilities' list\n");
+	printf("found valid 'course_capabilities' list\n\n");
 };
 
 production: resources_list {
-	printf("found valid 'resources list'\n");
+	printf("found valid 'resources list'\n\n");
 };
 
 production: resources_entry {
-	printf("found valid 'resources_entry' list");
+	printf("found valid 'resources_entry' list\n\n");
 };
 
 needs_list: LBRACKET course_list RBRACKET
@@ -45,10 +45,10 @@ course_list: single_course | single_course COMMA course_list
 single_course: LBRACKET COURSE COMMA NUM COMMA DAY COMMA NUM COMMA NUM RBRACKET
 ;
 
-unavailable_list: LBRACKET unavail_items RBRACKET
+unavailable_list: LBRACKET RBRACKET | LBRACKET unavail_items RBRACKET
 ;
 
-unavail_items: ""| unavail | unavail COMMA unavail_items
+unavail_items: unavail | unavail COMMA unavail_items
 ;
 
 unavail: LBRACKET DAY COMMA NUM COMMA NUM RBRACKET
