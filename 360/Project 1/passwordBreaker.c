@@ -188,6 +188,7 @@ void exit_with_time(int signum) {
 
 	printf("\nRan %d attempts in %.2d:%.2d:%.2d:%.3d:%.3d (hh:mm:ss:ms:us)\n", 
 			attempt_counts, hh, mm, ss, ms, us);
+	fflush(stdout);
 	exit(0);
 }
 

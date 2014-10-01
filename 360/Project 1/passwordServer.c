@@ -14,8 +14,19 @@
 #include "includes.h"
 
 #define RECV_MAX 12
+#define INET_ADDR_SIZE 16
+
+/* stats variables, globalized for easy access */
+
+char clientList[20][INET_ADDR_SIZE];
+int clientCount = 0;
+int attemptCount = 0;
+int successCount = 0;
+char clientAddrString[INET_ADDR_SIZE];
 
 int goodRandom();
+
+void exit_with_stats();
 
 void DieWithError(char *errMessage);
 
@@ -39,9 +50,11 @@ int main(int argc, char *argv[]) {
 	char *password;
 	char alphabet[62];
 
+
 	srand(time(NULL));
 
 	initializeAlphabet(alphabet);
+	signal(SIGINT, exit_with_stats);
 
 	if(argc < 3) {
 		DieWithError("Usage: ./passwordServer <serverPort> <passwordLength> [<initialPassword>]");
@@ -79,12 +92,20 @@ int main(int argc, char *argv[]) {
 			&clientAddress, &clientAddrLength)) < 0) {
 			DieWithError("recvfrom() failed!");
 		}
-
+		clientCount++;
+		attemptCount++;
+		inet_ntop(AF_INET, &(clientAddress.sin_addr), clientAddrString, sizeof(clientAddrString));
+		if(strcmp(clientAddrString, clientList[clientCount - 1])){
+			strcpy(clientList[clientCount], clientAddrString);
+		}
+		else {clientCount--;}
+		
 		if((passwordGuessed = checkPassword(password, recvBuffer, passwordLength)))
 		{
-			printf("Password successfully guessed!\n\n");
+			printf("Password successfully guessed by client: %s\n\n",clientAddrString);
 			generatePassword(password, passwordLength, alphabet);
 			reply = "SUCCESS";
+			successCount++;
 			passwordGuessed = 0;
 		}
 		else { reply = "FAILURE"; }
@@ -123,6 +144,18 @@ int goodRandom() {
 	} while (value > 61);
 
 	return value;
+}
+
+void exit_with_stats() {
+	printf("%d\t%d\n",attemptCount,successCount);
+	int i;
+	for(i = 0; i < 20; i++) {
+		if(strcmp("",clientList[i])){
+			printf("%s\n",clientList[i]);
+		}
+	}
+	fflush(stdout);
+	exit(0);
 }
 /*
  * Does a character-by-character comparison of password stored vs. received.
