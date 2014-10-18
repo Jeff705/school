@@ -7,7 +7,7 @@
 #include "mythreads.h"
 
 #define BIG 1000
-#define TIMER_INTERVAL_US 10
+#define TIMER_INTERVAL_US 12
 
 //this function will be called
 //everytime that the timer fires
@@ -18,9 +18,7 @@ void timer_handler (int signum)
 {
 	if (!interruptsAreDisabled)
 	{	
-		
-		//printf("--------->$$$$ interrupting\n");
-		
+		printf("--------->$$$$ interrupting\n");
 		threadYield();
 	}
 } 

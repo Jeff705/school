@@ -1,5 +1,6 @@
 #include <ucontext.h>
 #include <stdlib.h>
+#include <stdio.h>
 #include <assert.h>
 #include "mythreads.h"
 // DATA STRUCTURE DECLARATIONS
@@ -196,7 +197,8 @@ int retValFinder(int thread_id, void **result)
 		{
 			if(current->id == thread_id)
 			{
-				result = &(current->returnValue);
+
+				*result = (current->returnValue);
 				found = 1;
 			}
 			current = current->next;
@@ -256,10 +258,12 @@ void threadJoin( int thread_id , void ** result )
 	{
 		interruptDisable();
 		found = retValFinder(thread_id, result);
-		if(!found) {
+		if(!found) 
+		{
 			interruptEnable();
 			threadYield();
 		}
+		
 	}
 	interruptEnable();
 
