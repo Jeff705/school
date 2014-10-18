@@ -182,7 +182,7 @@ void threadInit()
  * 
  */
 
-int retValFinder(int thread_id, void *result) 
+int retValFinder(int thread_id, void **result) 
 {
 	int found = 0;
 	retVal *current;
@@ -196,7 +196,7 @@ int retValFinder(int thread_id, void *result)
 		{
 			if(current->id == thread_id)
 			{
-				result = current->returnValue;
+				result = &(current->returnValue);
 				found = 1;
 			}
 			current = current->next;
@@ -255,7 +255,7 @@ void threadJoin( int thread_id , void ** result )
 	while(!found) 
 	{
 		interruptDisable();
-		found = retValFinder(thread_id, *result);
+		found = retValFinder(thread_id, result);
 		if(!found) {
 			interruptEnable();
 			threadYield();
