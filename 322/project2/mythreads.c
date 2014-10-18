@@ -67,7 +67,8 @@ int isQueueTail(thread *checkMe) {
  * pulls thread from the circular queue and fixes the links
  *
  * also sets currentThread to the next available thread
- *
+ * EFFECTIVELY ATOMIC
+ * this is called from within a protected section
  */
 
 void removeThread(thread *removeMe) {
@@ -129,7 +130,11 @@ void contextSetup(ucontext_t *newcontext, thFuncPtr func, void* arg)
 	makecontext(newcontext, (void (*)(void))managedThreadRun, 2, func, arg);
 
 }
-
+/*
+ * EFFECTIVELY ATOMIC
+ * this is called from inside a protected section
+ *
+ */
 void returnListAppend(retVal *toAppend)
 {
 	if(returnList.head == NULL)
@@ -244,20 +249,25 @@ void threadYield()
 
 void threadJoin( int thread_id , void ** result )
 {
+	
 	int found = 0;
 
 	while(!found) 
 	{
+		interruptDisable();
 		found = retValFinder(thread_id, *result);
 		if(!found) {
+			interruptEnable();
 			threadYield();
 		}
 	}
+	interruptEnable();
 
 }
 
 void threadExit(void *result)
 {
+	interruptDisable();
 	if(queue->currentThread->id == 0) 
 	{
 		exit(0);
@@ -272,6 +282,7 @@ void threadExit(void *result)
 		returnListAppend(toAppend);
 		removeThread(queue->currentThread);
 		ucontext_t *nextContext = &(queue->currentThread->context);
+		interruptEnable();
 		setcontext(nextContext);
 	}
 }
