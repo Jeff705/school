@@ -1,0 +1,26 @@
+Chris Ragan
+Dr. Sorber
+CPSC 3220
+10/17/14
+
+Project 2: Thread Library of DOOOOM.
+
+Known problems: 
+
+*Timing: a short enough interrupt interval (< 15 us) will cause segfaults. Or
+		bus errors. I was unable to trace the root of these, as it was
+		inconsistent in GDB -- it varied depending on the interval length,
+		and so was hard to pinpoint.
+
+*Mutex:	As of this writing, they're not working. Scratch that... they're not
+		even implemented. I will try to get them up and running, but 2 hours doesn't bode well.
+
+
+Design: 
+
+I can't say this was a clever design, but it works and taught me even
+		more about pointers and memory management in C. If I were to do locks
+		and convars I'd be using a similarly mundane design; arrays of ints to
+		track locks. I'm sure it's not that bad, I just ran out of time.
+
+
