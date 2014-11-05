@@ -27,23 +27,28 @@ int main(int argc, char *argv[]) {
 	while(!feof(stdin)) {
 		scanf("%s %d",pc,&taken);
 		predictions++;
+
+//		printf("%d: scanned %s, %d\n",predictions,pc,taken);
+
 		bht_address = generate_address(pc, mask);
 		current_counter = &counters[bht_address];
+
+//		printf("%d: scanned %s, %d, counter: %d\n",predictions,pc,taken, *current_counter);
 		if(taken) {
 			if(*current_counter < 2) { mispredictions++;	}
 
-			if(*current_counter < 3) { *current_counter++;	}
+			if(*current_counter < 3) { (*current_counter)++;}
 		}
 		else {
 			if(*current_counter > 1) { mispredictions++; }
 
-			if(*current_counter > 0) { *current_counter--; }
+			if(*current_counter > 0) { (*current_counter)--; }
 		}				
 	}
 
 //file processing complete, let's crunch some numbers!
 
-	float percent_mispredict = mispredictions/predictions;
+	float percent_mispredict = (float)mispredictions/predictions;
 	percent_mispredict *= 100;
 	printf("Percent mispredicted: %0.2f\n",percent_mispredict);
 
@@ -63,7 +68,7 @@ int maskgen(int width) {
 }
 
 int generate_address(char *pc, int mask) {
-	int address = strtol(&pc[6],NULL,16);
+	int address = strtol(&pc[4],NULL,16);
 	address = address & mask;
 	return address;
 }
