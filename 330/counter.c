@@ -7,8 +7,8 @@ int maskgen(int width);
 int extract_lsbytes(char *pc);
 
 int main(int argc, char *argv[]) {
-	int correct_predictions;
-	int wrong_predictions;
+	int predictions;
+	int mispredictions;
 
 	int max_entries = 1;
 	int index_width = atoi(argv[1]);
@@ -21,7 +21,12 @@ int main(int argc, char *argv[]) {
 	int bht_address;
 	int taken;
 
-	
+	while(!feof(stdin)) {
+		scanf("%s %d",pc,&taken);
+	//check counter vs. taken
+	//update predictions/mispredictions
+	//update counter
+	}
 
 	return 0;	
 }
