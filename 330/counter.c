@@ -4,29 +4,48 @@
 #include <string.h>
 
 int maskgen(int width);
-int extract_lsbytes(char *pc);
+int generate_address(char *pc, int mask);
 
 int main(int argc, char *argv[]) {
-	int predictions;
-	int mispredictions;
+	int predictions = 0;
+	int mispredictions = 0;
 
 	int max_entries = 1;
 	int index_width = atoi(argv[1]);
 	max_entries = max_entries << index_width;
 
 //allocate memory for counters, ensure they start at 0	
-	char *counters = calloc(sizeof(char)*max_entries);
+	char *counters = calloc(max_entries,sizeof(char));
 	char *pc = malloc(9);
-	
+	char *current_counter;
 	int bht_address;
 	int taken;
+	int mask = maskgen(index_width);
+
+//process file, update total number of predictions read and mispredictions.
 
 	while(!feof(stdin)) {
 		scanf("%s %d",pc,&taken);
-	//check counter vs. taken
-	//update predictions/mispredictions
-	//update counter
+		predictions++;
+		bht_address = generate_address(pc, mask);
+		current_counter = &counters[bht_address];
+		if(taken) {
+			if(*current_counter < 2) { mispredictions++;	}
+
+			if(*current_counter < 3) { *current_counter++;	}
+		}
+		else {
+			if(*current_counter > 1) { mispredictions++; }
+
+			if(*current_counter > 0) { *current_counter--; }
+		}				
 	}
+
+//file processing complete, let's crunch some numbers!
+
+	float percent_mispredict = mispredictions/predictions;
+	percent_mispredict *= 100;
+	printf("Percent mispredicted: %0.2f\n",percent_mispredict);
 
 	return 0;	
 }
@@ -43,8 +62,9 @@ int maskgen(int width) {
 	return mask;
 }
 
-int extract_lsbytes(char *pc) {
-	int extracted = strtol(&pc[6],NULL,16);
-	return extracted;
+int generate_address(char *pc, int mask) {
+	int address = strtol(&pc[6],NULL,16);
+	address = address & mask;
+	return address;
 }
 	
