@@ -4,12 +4,14 @@
 #include <stdlib.h>
 #include <string.h>
 #include <unistd.h>
+#include <signal.h>
 
 #define FILEBUFSIZE 1024 
 #define MAXPENDING 5
 
 void handleError(char* message);
 void transferFile(char *buffer, FILE *fd, int clientSocket);
+void exit_with_stats(int signum);
 
 int filesTransferred = 0;
 
@@ -59,10 +61,13 @@ int main(int argc, char **argv)
 		}
 
 		printf("\nTransferring");
-		while(fread(fileBuffer, 1, FILEBUFSIZE, transferMe) != 0)
+		int bytesRead;
+		while(!feof(transferMe))
 		{
-			send(clientSock, fileBuffer, FILEBUFSIZE, 0);
+			bytesRead = fread(fileBuffer, 1, FILEBUFSIZE, transferMe);
+			send(clientSock, fileBuffer, bytesRead, 0);
 			printf(".");
+
 		}
 
 		printf("\nFile transfer complete!\n");
@@ -71,15 +76,19 @@ int main(int argc, char **argv)
 //SERVER MODE
 	else if(atoi(argv[1]) == 1)
 	{
+		char fileIndex[10]; // this holds the current file index in string form
 		if(argc != 4)
 		{
 			handleError("Usage: ./a.out <1> <serverPort> <fileToCreate>\n");
 		}
 
 		servPort = atoi(argv[2]);
-		printf("servPort read as %d\n",servPort);
+
 		FILE *fileToWrite;
 		char *fileBaseName = argv[3];
+		char fileNameBuffer[64];
+		
+		signal(SIGINT,exit_with_stats);
 
 		if((servSock= socket(PF_INET, SOCK_STREAM, IPPROTO_TCP)) < 0)  
 		{
@@ -103,15 +112,18 @@ int main(int argc, char **argv)
 
 		while(1)
 		{
+
 			clientLen = sizeof(clientAddr);
 			
 			if((clientSock = accept(servSock, (struct sockaddr *) &clientAddr, &clientLen)) < 0)
 			{
 				handleError("accept() failed");
 			}
-			fileToWrite = fopen(argv[2],"w");
+			strcpy(fileNameBuffer,fileBaseName);
+			sprintf(fileIndex, "%d",filesTransferred);
+			strcat(fileNameBuffer,fileIndex);
+			fileToWrite = fopen(fileNameBuffer,"w");
 			transferFile(fileBuffer, fileToWrite, clientSock);
-			filesTransferred++;
 			fclose(fileToWrite);
 		}
 	}
@@ -133,13 +145,22 @@ void transferFile(char *buffer, FILE *fd, int clientSocket)
 	int bytesReceived;
 	if((bytesReceived = recv(clientSocket, buffer, FILEBUFSIZE, 0)) < 0)
 	{
-		handleError("recv() failed");
+		fprintf(stderr,"Something went wrong with recv(), returning...");
 	}
-
-	while(bytesReceived > 0)
+	else 
 	{
-		fwrite(buffer, 1, bytesReceived, fd);
-		recv(clientSocket, buffer, FILEBUFSIZE, 0);
+		while(bytesReceived > 0)
+		{
+			fwrite(buffer, 1, bytesReceived, fd);
+			bytesReceived = recv(clientSocket, buffer, FILEBUFSIZE, 0);
+		}
+		filesTransferred++;
 	}
 
+}
+
+void exit_with_stats(int signum)
+{
+	printf("\nServer terminated.\nTotal files transferred: %d\n",filesTransferred);
+	exit(0);
 }
