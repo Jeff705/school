@@ -36,17 +36,18 @@ local (to each page) --
 
 #include <stdlib.h>
 #include <sys/mman.h>
+#include <stdint.h>
 
 #define PAGESIZE 4096
-#define MAX_OBJSIZE 1024
-#define MIN_OBJSIZE 8
+#define MAX_OBJSIZE 10 //note: these are powers of 10 to make things easier
+#define MIN_OBJSIZE 3
+#define PAGE_FULL -1
 
 static int init_allocator() __attribute__((constructor));
+FILE *zero;
+uintptr_t page_list[MAX_OBJSIZE + 1]; //so that page_list[MAX_OBJSIZE] will
+				      //contain objects of 2^MAX_OBJSIZE size
 
-typedef struct mapped_object {
-	mapped_object *next;
-	void *data;
-}mapped_obj;
 /*
  * regular pages are to be used when the size is implied by membership to
  * the global page list of 2^3 - 2^10. if an object is allocated that is
@@ -54,18 +55,10 @@ typedef struct mapped_object {
  * list at global_page_list[0].
  */
 
-
-typedef struct regular_page regular_page {
-	regular_page *next_page;
-	regular_page *prev_page;
-	void *first_object;
-};
-
- struct odd_chunk odd_chunk {
-	odd_chunk *next;
-	odd_chunk *prev;
-	void *obj_space;
-};
+static int init_allocator()
+{
+	zero = fopen("/dev/zero","r");
+}
 
 /* Constructor functions:
  * 	Initialize object list
@@ -117,6 +110,42 @@ typedef struct regular_page regular_page {
  *
  */
 
+/* 
+ * page_create
+ * 
+ * this function assumes you're creating a page at the end of a list. it will
+ * return a page with NULL as <next>, prev pointed to arg0, and pointer
+ * pointing to the beginning of the page.
+ */
+
+void *page_create(void *prev) {
+	void *pageptr = mmap(NULL,PAGE_SIZE, PROT_READ|PROT_WRITE,
+			MAP_PRIVATE|MAP_ANONYMOUS,-1,0);
+	
+	if(pageptr == (int*)-1)
+	{
+		perror("mmap");
+	}
+
+	*(pageptr + sizeof(void*)) = prev;
+
+	return pageptr;
+}
+
+/*
+ * obj_create
+ * 
+ * assumption: this will NEVER be called on a full page, so it will always find
+ * an appropriate spot within the legal page boundaries
+ *
+ */
+
+void *obj_create(void *pageptr, int objsize) {
+	void *firstobj = (uintptr_t)pageptr + (sizeof(void*) *3);
+	void *nextobj = (char*)firstobj[objsize];
+	while(nextobj)
+	{
+		
 /*
  * HELPER FUNCTIONS:
  *

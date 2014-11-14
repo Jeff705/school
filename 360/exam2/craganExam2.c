@@ -1,3 +1,11 @@
+/*
+ * Chris Ragan
+ * Dr. Remy
+ * Exam 2 code portion
+ * 11/14/14
+ *
+ */
+
 #include <stdio.h>
 #include <sys/socket.h>
 #include <arpa/inet.h>
