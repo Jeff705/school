@@ -40,8 +40,8 @@ int main(int argc, char **argv)
 		FILE *transferMe = fopen(argv[4],"r");
 		if(transferMe == NULL) { handleError("Failed to open specified file!"); }
 		
-		servIP = argv[1];
-		servPort = atoi(argv[2]);
+		servIP = argv[2];
+		servPort = atoi(argv[3]);
 		
 		if((clientSock = socket(PF_INET, SOCK_STREAM, IPPROTO_TCP)) < 0) 
 		{
@@ -76,9 +76,10 @@ int main(int argc, char **argv)
 			handleError("Usage: ./a.out <1> <serverPort> <fileToCreate>\n");
 		}
 
-		servPort = atoi(argv[1]);
+		servPort = atoi(argv[2]);
+		printf("servPort read as %d\n",servPort);
 		FILE *fileToWrite;
-		char *fileBaseName = argv[2];
+		char *fileBaseName = argv[3];
 
 		if((servSock= socket(PF_INET, SOCK_STREAM, IPPROTO_TCP)) < 0)  
 		{
