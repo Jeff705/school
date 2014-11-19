@@ -1,52 +1,42 @@
-/* 
- * TODO: do we need structs, or just to track stuff mathematically
- * 	within functions? - probably just track via math to save
- * 	space and complexity
-`
-things that need to be tracked:
 
-global --
-	list of pages (array of pointers, indices of which
-	correspond to the power of 2 for the pages they're
-	pointing to). this would be 10 words long (10 pointers)
-	and if 8 is the minimum obj size, would still have a couple
-	pointers to play with (maybe 0 could be the linked-list to
-	oddly sized allocations).
-
-local (to each page) --
-
-	a pointer to the next allocated page IN THE LIST TO WHICH 
-	IT BELONGS, followed by the first object allocated
-
-		this solution has the advantage of simple calculation
-		for where an object will fit - if there's an object-
-		sized hole between 'this' and 'next', or 'next' is 
-		NULL and there's still room in the page, allocate!
-
-		if all objects in the page are freed AND next page
-		is NULL, we can give back the page to the OS
-
-		need functionality to remove objects (map the 'next'
-		pointer of the previous object to the 'next' ptr of
-		the object being deleted).
-
-*/
 
 #define _GNU_SOURCE
 
 #include <stdlib.h>
 #include <sys/mman.h>
 #include <stdint.h>
+#include <stdio.h>
+#include <string.h>
+
 
 #define PAGESIZE 4096
-#define MAX_OBJSIZE 10 //note: these are powers of 10 to make things easier
-#define MIN_OBJSIZE 3
-#define PAGE_FULL -1
+#define MAX_OBJ_EXP 10
+#define MIN_OBJ_EXP 3
+#define MAX_OBJ_SIZE 1024
+#define MIN_OBJ_SIZE 8
+//MAX and MIN's must be powers of 2!
+
+typedef struct obj_t obj_t;
+struct obj_t {
+	obj_t *next;
+	int valid; //0 if deleted, 1 if valid
+	void *contents;
+};
+
+typedef struct page_t page_t;
+
+struct page_t {
+	page_t *next;
+	page_t *prev;
+	int num_objects;
+	int content_size;
+	obj_t objspace;
+};
 
 static int init_allocator() __attribute__((constructor));
-FILE *zero;
-uintptr_t page_list[MAX_OBJSIZE + 1]; //so that page_list[MAX_OBJSIZE] will
-				      //contain objects of 2^MAX_OBJSIZE size
+//FILE *zero;
+page_t *page_list[MAX_OBJ_EXP + 1]; //so that page_list[MAX_OBJ_EXP] will
+				    			//contain objects of MAX_OBJ_SIZE size
 
 /*
  * regular pages are to be used when the size is implied by membership to
@@ -54,20 +44,18 @@ uintptr_t page_list[MAX_OBJSIZE + 1]; //so that page_list[MAX_OBJSIZE] will
  * larger than 1024, it gets an odd_chunk and is appended to the linked
  * list at global_page_list[0].
  */
+page_t *page_create(page_t *prev, size_t content_size);
+page_t *big_page_create(page_t *prev, size_t size);
+obj_t *obj_create(page_t *pageptr, int objsize);
+int pageFull(int num_objects, int objsize);
+void obj_invalidate(page_t *pageptr, void *ptr);
+void page_unmap(page_t *pageptr);
 
 static int init_allocator()
 {
-	zero = fopen("/dev/zero","r");
+	//zero = fopen("/dev/zero","r");
+	return 0;
 }
-
-/* Constructor functions:
- * 	Initialize object list
- * 	open /dev/zero and assign to a global ptr
- *	create an address mask and assign to global
- * 	That's it... I think.
- *
- */
-
 
 /* malloc:
  * 	check argument size-
@@ -83,26 +71,104 @@ static int init_allocator()
  *
  */
 
-/* free:
- * 	if argument == null - return
- *	else get page address by masking
- *	
- *	use iterator function to determine where in the page the
- *	object is, do a linked-list deletion (forwarding prev obj
- * 	to the next obj).
- *	
- *	if the object is the only object on the page, link the previous
- *	page to the next page and munmap the page
- */
+void *malloc(size_t size) {
+	obj_t *new_obj = NULL;
+	if(size > 0 && size <= MAX_OBJ_SIZE)
+	{
+//object belongs on a regular page
+//determine which page obj belongs on
+		int quantum = MIN_OBJ_SIZE;
+		int exponent = MIN_OBJ_EXP;
+		while(quantum < size)
+		{
+			quantum <<= 1; //increase exponent to mod by
+			exponent++;
+		}
+		page_t *obj_page;
+//at this point we have a power of 2 for the page this obj belongs on
+//as well as the integer size in bytes of the obj size for this page (quantum)
+		if(page_list[exponent] == NULL)
+		{
+			obj_page = page_create(NULL,quantum);
+			page_list[exponent] = obj_page;
+		}
+		else
+		{
+//page exists, start obj_page at the base page in the page_list
+			obj_page = page_list[exponent];
+			while(obj_page->next && pageFull(obj_page->num_objects,quantum))
+			{
+			//skip the full pages
+				obj_page = obj_page->next;
+			}
+			if(pageFull(obj_page->num_objects, quantum))
+			{
+			//last page is full, make new page and link to this one
+				obj_page->next = page_create(obj_page,quantum);
+				obj_page = obj_page->next;
+			}
+		}
+	// obj_page is now defined as the earliest page with space for
+	// an object of 'size'
+		new_obj = obj_create(obj_page, quantum);
+	}
 
-/*
- * calloc:
- *	if > 1024, just malloc a big page -- it'll be initialized to
-	zero anyway
- *
- *	else call malloc with the appropriate size, then memset it
- *	to zero
- */
+//at this point, we mmap a new page for the object and stuff it in the
+//linked list at page_list[0]
+	else if(size > MAX_OBJ_SIZE)
+	{
+		page_t *current = page_list[0];
+		if(current == NULL) {
+			page_list[0] = big_page_create(NULL,size);
+			new_obj = &page_list[0]->objspace;
+		}
+		else
+		{
+			while(current->next)
+			{
+				current = current->next;
+			}
+			current->next = big_page_create(current, size);
+			current = current->next;
+			new_obj = &current->objspace;
+		}
+	}
+	if(new_obj == NULL) {
+		return new_obj;
+	}
+	else
+	{
+		return &new_obj->contents;
+	}
+}
+
+
+void free(void *pointer) {
+	if(pointer != NULL)
+	{
+		page_t *page_ptr = (void*)((uintptr_t)pointer & ~((uintptr_t)0xFFF));
+		obj_invalidate(page_ptr,pointer);
+
+		if(page_ptr->num_objects == 0)
+		{
+			page_unmap(page_ptr);
+		}
+	}
+}
+
+void *calloc(size_t num, size_t size)
+{
+	void *dataptr;
+	size_t totalSize = num * size;
+	dataptr = malloc(totalSize);
+
+	if(totalSize < MAX_OBJ_SIZE)
+	{
+		memset(dataptr, 0, totalSize);
+	}
+
+	return dataptr;
+}
 
 /* realloc:
  * 	we'll figure this out after we get the rest of the functions
@@ -110,6 +176,22 @@ static int init_allocator()
  *
  */
 
+/* void *realloc(void *ptr, size_t size)
+{
+	void *newptr = ptr;
+
+	page_t *page_ptr = (void*)((uintptr_t)ptr & ~((uintptr_t)0xFFF));
+	int currentsize = page_ptr->content_size;
+	if(size > currentsize)
+	{
+		newptr = malloc(size);
+		memcpy(newptr, ptr, currentsize); //doesn't matter, memory is allocated
+		free(ptr);
+	}
+
+	return newptr;
+}
+*/
 /* 
  * page_create
  * 
@@ -118,17 +200,34 @@ static int init_allocator()
  * pointing to the beginning of the page.
  */
 
-void *page_create(void *prev) {
-	void *pageptr = mmap(NULL,PAGE_SIZE, PROT_READ|PROT_WRITE,
+page_t *page_create(page_t *prev, size_t content_size) {
+	page_t *pageptr = mmap(NULL,PAGESIZE, PROT_READ|PROT_WRITE,
 			MAP_PRIVATE|MAP_ANONYMOUS,-1,0);
 	
-	if(pageptr == (int*)-1)
+	if(pageptr == (page_t *)-1)
 	{
 		perror("mmap");
 	}
 
-	*(pageptr + sizeof(void*)) = prev;
+	pageptr->prev = prev;
+	pageptr->content_size = content_size;
+	pageptr->num_objects = 0;
 
+	return pageptr;
+}
+
+page_t *big_page_create(page_t *prev, size_t size) {
+	page_t *pageptr = mmap(NULL,(size + 32), PROT_READ|PROT_WRITE,
+			MAP_PRIVATE|MAP_ANONYMOUS, -1,0);
+
+	if(pageptr == (page_t *)-1)
+	{
+		perror("mmap");
+	}
+
+	pageptr->prev = prev;
+	pageptr->num_objects = 0;
+	pageptr->content_size = size;
 	return pageptr;
 }
 
@@ -140,28 +239,94 @@ void *page_create(void *prev) {
  *
  */
 
-void *obj_create(void *pageptr, int objsize) {
-	void *firstobj = (uintptr_t)pageptr + (sizeof(void*) *3);
-	void *nextobj = (char*)firstobj[objsize];
-	while(nextobj)
+obj_t *obj_create(page_t *pageptr, int objsize) {
+	obj_t *new_obj;
+	obj_t *current = &pageptr->objspace;
+	obj_t *prev = NULL;
+	while(current->valid)
 	{
+		prev = current;
+		if(current->next) 
+		{
+			current = current->next;	
+		}
+		else current = (obj_t *)((char *)current + sizeof(obj_t) + objsize);
 		
-/*
- * HELPER FUNCTIONS:
- *
- * int obj_remove(void* start_addr,void* remove_me)
- * 	links prev obj to next obj on page. if this is the only obj on
- * 	the page (remove_me == start_addr; remove_me->next == NULL)
- *	return 1, else return 0.
- *
- * void page_remove(void *page_to_remove, void* <list_where_page_resides>)
- * 	same type of thing as obj_remove... but for a page
- *
- * void *get_free_space(void *page,int obj_size)
- * 	starts at a page ptr, then starts iterating over objects, checking
- *	to see whether a gap of 'obj_size + (sizeof(void *))' exists 
- *	between objects on the page. returns pointer to the first gap 
- *	it finds, or the next free space in the page, OR will return 
- *	NULL if the page is empty
- *
- */
+	}
+	if(!current->valid)
+	{
+		new_obj = current;
+	}
+	else new_obj = (current + (objsize + sizeof(obj_t *) + sizeof(int)));
+	if(prev != NULL)
+	{
+		prev->next = new_obj;
+	}
+	current->valid = 1;
+	pageptr->num_objects++;
+	
+	return new_obj;
+}
+
+int pageFull(int num_objects, int objsize) {
+	int projectedPageNeed = ((num_objects + 1) * objsize + 32);
+	if(projectedPageNeed > PAGESIZE)
+	{
+		return 1;
+	}
+	else return 0; 
+}
+
+//sets object within page to invalid when the proper object is found
+
+void obj_invalidate(page_t *pageptr, void *ptr)
+{
+	obj_t *current = (obj_t *)&pageptr->objspace;
+	while(&current->contents != ptr)
+	{
+		current = current->next;
+	}
+	current->valid = 0;
+	pageptr->num_objects--;
+}
+
+void page_unmap(page_t *pageptr)
+{
+	size_t bytesToUnmap = pageptr->content_size;
+
+	if(pageptr->prev == NULL)
+	{
+	//page is head of a list
+		
+			int quantum = MIN_OBJ_SIZE;
+			int exponent = MIN_OBJ_EXP;
+			while(quantum < pageptr->content_size)
+			{
+				quantum <<= 1;
+				exponent++;
+			}
+			if(quantum > MAX_OBJ_SIZE)
+			{
+				exponent = 0;
+			}
+			page_list[exponent] = pageptr->next;
+			if(page_list[exponent] != NULL)
+			{
+				page_list[exponent]->prev = NULL;	
+			}
+			
+	}
+	else if(pageptr->next)
+	{
+	//page is not the last in a list
+		pageptr->next->prev = pageptr->prev;
+		pageptr->prev->next = pageptr->next;
+	}
+	else
+	{
+	//page is last in a list
+		pageptr->prev->next = pageptr->next;
+	}
+	
+	munmap(pageptr,bytesToUnmap);
+}

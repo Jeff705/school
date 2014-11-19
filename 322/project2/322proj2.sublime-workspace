@@ -235,58 +235,6 @@
 	},
 	"buffers":
 	[
-		{
-			"contents": "#include <ucontext.h>\n#include <stdlib.h>\n#include <stdio.h>\n#include <assert.h>\n#include \"mythreads.h\"\n// DATA STRUCTURE DECLARATIONS\n\ntypedef struct thread {\n	int id;\n	void *returnValue;\n	ucontext_t context;\n	struct thread *next;\n	struct thread *prev;\n\n} thread;\n\ntypedef struct thread_queue {\n	int count;\n	thread *currentThread;\n	thread *head;\n	thread *tail;\n} tqueue;\n\ntypedef struct retVal {\n	int id;\n	void *returnValue;\n	struct retVal *next;\n} retVal;\n\ntypedef struct rtvList {\n	retVal *head;\n	retVal *tail;\n} rtvList;\n\n// GLOBAL VARIABLES\n\nint interruptsAreDisabled = 0;\ntqueue *queue;\nthread *mainthread;\nrtvList returnList;\n\n// LIBRARY METHODS\n\n// HELPER FUNCTIONS: these aren't part of the mythreads API\n\nstatic void interruptDisable() \n{\n	assert(!interruptsAreDisabled) ;\n	interruptsAreDisabled = 1;\n}\n\nstatic void interruptEnable() \n{\n	assert(interruptsAreDisabled) ;\n	interruptsAreDisabled = 0;\n}\n\nint isQueueTail(thread *checkMe) {\n	if(queue->tail == checkMe) {\n		return 1;\n	}\n	else return 0;\n}\n//TODO: Figure a way to safely deallocate the thread\n\n/* removeThread()\n *\n * pulls thread from the circular queue and fixes the links\n *\n * also sets currentThread to the next available thread\n * EFFECTIVELY ATOMIC\n * this is called from within a protected section\n */\n\nvoid removeThread(thread *removeMe) {\n	if(isQueueTail(removeMe)) \n	{\n		thread *newTail = queue->tail->prev;\n		queue->head->prev = newTail;\n		newTail->next = queue->head;\n		queue->currentThread = queue->head;\n	}\n\n	else\n	{\n		thread *forward = queue->currentThread->next;\n		thread *reverse = queue->currentThread->prev;\n		forward->prev = reverse;\n		reverse->next = forward;\n		queue->currentThread = forward;\n	}\n}\n\nvoid managedThreadRun(thFuncPtr func, void *arg)\n{\n	void *result = func(arg);\n	threadExit(result);\n}\n\n/* threadMake()\n *\n * Allocates space for a new thread type, sets ID, and stores\n * the context passed by the caller.\n *\n */\n\nthread* threadMake(int newid, ucontext_t *threadContext)\n{\n	thread* newthread = (thread*)malloc(sizeof(thread));\n	newthread->id = newid;\n	newthread->context = *threadContext;\n	return newthread;\n}\n\n/* contextSetup()\n *\n * takes a context pointer, function pointer (type), and argument pointer\n *\n * Initializes and allocates a new stack\n * Sets up context to run function with specified argument\n *\n */\n\nvoid contextSetup(ucontext_t *newcontext, thFuncPtr func, void* arg) \n{\n	\n	getcontext(newcontext);\n	newcontext->uc_stack.ss_sp = malloc(STACK_SIZE);\n	newcontext->uc_stack.ss_size = STACK_SIZE;\n	newcontext->uc_stack.ss_flags = 0;\n	makecontext(newcontext, (void (*)(void))managedThreadRun, 2, func, arg);\n\n}\n/*\n * EFFECTIVELY ATOMIC\n * this is called from inside a protected section\n *\n */\nvoid returnListAppend(retVal *toAppend)\n{\n	if(returnList.head == NULL)\n	{\n		returnList.head = toAppend;\n		returnList.tail = toAppend;\n	}\n\n	else\n	{	\n		returnList.tail->next = toAppend;\n		returnList.tail = toAppend;\n	}\n}\n\n// API DEFINED FUNCTIONS: These are specified in the API for the library\n\nvoid threadInit() \n{\n	\n	interruptDisable();\n\n	ucontext_t *currentContext = malloc(sizeof(ucontext_t));\n	getcontext(currentContext);\n	queue = malloc(sizeof(tqueue));\n	queue->head = threadMake(0, currentContext);\n	queue->tail = queue->head;\n	queue->currentThread = queue->head;\n	queue->count = 1;\n\n	mainthread = queue->head; //we want this for easy access later!\n\n	interruptEnable();\n\n}\n\n/* retValFinder()\n *\n * iterates through the list of retVal structures and finds the one that\n * corresponds to thread_id, if it exists.\n * \n * stores retVal.returnValue in 'result' if it is found and returns 1\n *\n * else returns 0\n * \n */\n\nint retValFinder(int thread_id, void **result) \n{\n	int found = 0;\n	retVal *current;\n	if(returnList.head != NULL) \n	{\n\n		current = returnList.head;\n		//iterate over list of retVal nodes in the list, grab the value if\n		//id matches\n		while(current != NULL && found == 0)\n		{\n			if(current->id == thread_id)\n			{\n\n				*result = (current->returnValue);\n				found = 1;\n			}\n			current = current->next;\n		}\n	}\n\n	return found;\n}\n\n// thread management functions\n\n/* threadCreate()\n * \n * ATOMIC *\n * Creates a context and thread node for the queue\n * Appends node to tail of the queue\n * Points the 'next' pointer of the tail to the head (circularizing)\n *\n */\n\nint threadCreate( thFuncPtr funcPtr , void *argPtr ) \n{\n	interruptDisable();\n	ucontext_t *newContext = malloc(sizeof(ucontext_t));\n	ucontext_t *prevContext = &(queue->currentThread->context);\n	contextSetup(newContext, funcPtr, argPtr);\n	thread* newthread = threadMake(queue->count, newContext);\n	queue->count++;\n	queue->tail->next = newthread;\n	newthread->prev = queue->tail;\n	queue->tail = newthread;\n	queue->tail->next = queue->head;\n	queue->head->prev = queue->tail;\n	queue->currentThread = queue->tail;\n	interruptEnable();\n	swapcontext(prevContext, newContext);\n	return newthread->id;\n}\n\nvoid threadYield()\n{\n	if(!interruptsAreDisabled) \n	{\n		ucontext_t *prevContext = &(queue->currentThread->context);\n		queue->currentThread = queue->currentThread->next;\n		ucontext_t *runThisContext = &(queue->currentThread->context);\n		swapcontext(prevContext, runThisContext);\n	}\n}\n\nvoid threadJoin( int thread_id , void ** result )\n{\n	\n	int found = 0;\n\n	while(!found) \n	{\n		interruptDisable();\n		found = retValFinder(thread_id, result);\n		if(!found) \n		{\n			interruptEnable();\n			threadYield();\n		}\n		\n	}\n	interruptEnable();\n\n}\n\nvoid threadExit(void *result)\n{\n	interruptDisable();\n	if(queue->currentThread->id == 0) \n	{\n		exit(0);\n	}\n\n	else\n	{\n		//add current thread's stuff to list of return values\n		retVal *toAppend = malloc(sizeof(retVal));\n		toAppend->id = queue->currentThread->id;\n		toAppend->returnValue = result;\n		returnListAppend(toAppend);\n		removeThread(queue->currentThread);\n		ucontext_t *nextContext = &(queue->currentThread->context);\n		interruptEnable();\n		setcontext(nextContext);\n	}\n}\n\n// synchronization functions\nvoid threadLock( int lockNum )\n{\n	\n}\n\nvoid threadUnlock( int lockNum )\n{\n\n}\n\nvoid threadWait( int lockNum , int conditionNum)\n{\n\n}\n\nvoid threadSignal( int lockNum , int conditionNum)\n{\n\n}\n\n// control atomicity\n\n\n\n",
-			"file": "mythreads.c",
-			"file_size": 6127,
-			"file_write_time": 1413596086000000,
-			"settings":
-			{
-				"buffer_size": 6128,
-				"line_ending": "Unix"
-			}
-		},
-		{
-			"file": "mythreads.h",
-			"settings":
-			{
-				"buffer_size": 717,
-				"line_ending": "Unix"
-			}
-		},
-		{
-			"file": "cooperative_test.c",
-			"settings":
-			{
-				"buffer_size": 840,
-				"line_ending": "Unix"
-			}
-		},
-		{
-			"file": "preemtive_test.c",
-			"settings":
-			{
-				"buffer_size": 2067,
-				"line_ending": "Unix"
-			}
-		},
-		{
-			"file": "Makefile",
-			"settings":
-			{
-				"buffer_size": 465,
-				"line_ending": "Unix"
-			}
-		},
-		{
-			"file": "README",
-			"settings":
-			{
-				"buffer_size": 806,
-				"line_ending": "Unix",
-				"name": "Chris Ragan"
-			}
-		}
 	],
 	"build_system": "",
 	"command_palette":
@@ -312,6 +260,10 @@
 	},
 	"file_history":
 	[
+		"/home/chris/Documents/school/322/project2/README",
+		"/home/chris/Documents/school/322/project2/Makefile",
+		"/home/chris/Documents/school/322/project2/preemtive_test.c",
+		"/home/chris/Documents/school/322/project2/cooperative_test.c",
 		"/home/chris/Documents/school/322/project2/mythreads.h",
 		"/home/chris/Documents/school/322/project2/mythreads.c",
 		"/home/chris/Documents/school/322/project2/test.c",
@@ -428,169 +380,8 @@
 	"groups":
 	[
 		{
-			"selected": 5,
 			"sheets":
 			[
-				{
-					"buffer": 0,
-					"file": "mythreads.c",
-					"settings":
-					{
-						"buffer_size": 6128,
-						"regions":
-						{
-						},
-						"selection":
-						[
-							[
-								5214,
-								5214
-							]
-						],
-						"settings":
-						{
-							"syntax": "Packages/C++/C.tmLanguage",
-							"translate_tabs_to_spaces": false
-						},
-						"translation.x": 0.0,
-						"translation.y": 4539.0,
-						"zoom_level": 1.0
-					},
-					"type": "text"
-				},
-				{
-					"buffer": 1,
-					"file": "mythreads.h",
-					"settings":
-					{
-						"buffer_size": 717,
-						"regions":
-						{
-						},
-						"selection":
-						[
-							[
-								1,
-								1
-							]
-						],
-						"settings":
-						{
-							"syntax": "Packages/C++/C++.tmLanguage"
-						},
-						"translation.x": 0.0,
-						"translation.y": 0.0,
-						"zoom_level": 1.0
-					},
-					"type": "text"
-				},
-				{
-					"buffer": 2,
-					"file": "cooperative_test.c",
-					"settings":
-					{
-						"buffer_size": 840,
-						"regions":
-						{
-						},
-						"selection":
-						[
-							[
-								352,
-								352
-							]
-						],
-						"settings":
-						{
-							"syntax": "Packages/C++/C.tmLanguage",
-							"translate_tabs_to_spaces": false
-						},
-						"translation.x": 0.0,
-						"translation.y": 51.0,
-						"zoom_level": 1.0
-					},
-					"type": "text"
-				},
-				{
-					"buffer": 3,
-					"file": "preemtive_test.c",
-					"settings":
-					{
-						"buffer_size": 2067,
-						"regions":
-						{
-						},
-						"selection":
-						[
-							[
-								1296,
-								1296
-							]
-						],
-						"settings":
-						{
-							"syntax": "Packages/C++/C.tmLanguage",
-							"translate_tabs_to_spaces": false
-						},
-						"translation.x": 0.0,
-						"translation.y": 663.0,
-						"zoom_level": 1.0
-					},
-					"type": "text"
-				},
-				{
-					"buffer": 4,
-					"file": "Makefile",
-					"settings":
-					{
-						"buffer_size": 465,
-						"regions":
-						{
-						},
-						"selection":
-						[
-							[
-								73,
-								73
-							]
-						],
-						"settings":
-						{
-							"syntax": "Packages/Makefile/Makefile.tmLanguage"
-						},
-						"translation.x": 0.0,
-						"translation.y": 0.0,
-						"zoom_level": 1.0
-					},
-					"type": "text"
-				},
-				{
-					"buffer": 5,
-					"file": "README",
-					"settings":
-					{
-						"buffer_size": 806,
-						"regions":
-						{
-						},
-						"selection":
-						[
-							[
-								99,
-								99
-							]
-						],
-						"settings":
-						{
-							"auto_name": "Chris Ragan",
-							"syntax": "Packages/Text/Plain text.tmLanguage"
-						},
-						"translation.x": 0.0,
-						"translation.y": 0.0,
-						"zoom_level": 1.0
-					},
-					"type": "text"
-				}
 			]
 		}
 	],

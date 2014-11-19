@@ -1,0 +1,17 @@
+Chris Ragan
+Dr. Sorber
+CPSC 3220
+11/14/14
+
+Project 3: Memory allocation library
+
+Known problems: ls still causes segfaults. I've run out of time to debug,
+and cat and simple test programs still work.
+
+Design: It doesn't seem like there's anything 'special' per se about the
+implementation.
+
+Notes: This was an amazing learning opportunity. I probably learned more
+under-the-hood functionality with this program than anything I've done
+before.
+

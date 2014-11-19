@@ -1,3 +1,37 @@
+
+joe is assigned to ece3520, Section 3
+
+randi is assigned to ece2090, Section 1
+
+no_conflict_all_available first test passed
+
+no_conflict_all_available second test failed
+
+no_conflict first test passed
+
+no_conflict second test failed
+
+no_overlap first test passed
+
+no_overlap second test failed
+
+resources before: [[joe,[ece2090,ece2010,ece3520,ece4420],[[m,13,16]]],[sam,[ece2010,ece4420],[]],[pete,[ece3520,ece4420],[[w,13,16]]],[randi,[ece2060,ece2090],[]],[gwen,[ece2060,ece2090,ece2010],[]],[tony,[ece4567,ece4420],[[w,13,16]]]]
+resources after: [[sam,[ece2010,ece4420],[]],[pete,[ece3520,ece4420],[[w,13,16]]],[randi,[ece2060,ece2090],[]],[gwen,[ece2060,ece2090,ece2010],[]],[tony,[ece4567,ece4420],[[w,13,16]]]]
+
+resources before: [[joe,[ece2090,ece2010,ece3520,ece4420],[[m,13,16]]],[sam,[ece2010,ece4420],[]],[pete,[ece3520,ece4420],[[w,13,16]]],[randi,[ece2060,ece2090],[]],[gwen,[ece2060,ece2090,ece2010],[]],[tony,[ece4567,ece4420],[[w,13,16]]]]
+resources after: [[joe,[ece2090,ece2010,ece3520,ece4420],[[m,13,16]]],[sam,[ece2010,ece4420],[]],[pete,[ece3520,ece4420],[[w,13,16]]],[randi,[ece2060,ece2090],[]],[gwen,[ece2060,ece2090,ece2010],[]],[tony,[ece4567,ece4420],[[w,13,16]]]]
+
+[ece2090,1,randi]
+
+[ece2060,2,sam]
+
+result of assignment test 1: 
+
+joe is assigned to ece2010, Section 2
+
+overall solution 1: [[ece2090,1,randi],[none,none,none],[ece3520,1,joe],[ece4420,2,sam]|_G283]
+
+overall solution 2: [[ece2090,1,joe],[none,none,none],[none,none,none],[ece4420,2,sam]|_G190]
 /*
  * PREDICATE TESTS
  */
